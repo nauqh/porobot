@@ -4,6 +4,8 @@
 ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)
 ![Riot Games](https://img.shields.io/badge/riotgames-D32936.svg?style=for-the-badge&logo=riotgames&logoColor=white)
 
+![Version](https://img.shields.io/badge/Latest_Version-V1.0.0-blue?style=for-the-badge)
+
 **Update** (12 July 2023): Invite Porobot to your discord server at [Porobot](https://echodb.streamlit.app/)
 
 ## About the project
