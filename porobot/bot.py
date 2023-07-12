@@ -17,7 +17,7 @@ bot = lightbulb.BotApp(
 
 
 # Extension
-bot.load_extensions_from("./tiamut/extensions", must_exist=True)
+bot.load_extensions_from("./porobot/extensions", must_exist=True)
 
 
 @bot.listen(hikari.StartingEvent)
