@@ -56,7 +56,7 @@ $ pip install -r requirements.txt
 
 Start the bot
 
-```sh
+```python
 $ python -m tiamut 
 ```
 
