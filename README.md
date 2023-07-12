@@ -6,7 +6,7 @@
 
 ![Version](https://img.shields.io/badge/Latest_Version-V1.0.0-808080?style=for-the-badge)
 
-**Update** (12 July 2023): Invite Porobot to your discord server at [Porobot](https://echodb.streamlit.app/)
+**Update** (12 July 2023): Invite Porobot to your discord server at [Porobot](https://nauqh.github.io/error.html)
 
 ## About the project
 
