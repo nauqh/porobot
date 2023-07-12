@@ -20,14 +20,15 @@ Echodb is a tiny system for collecting and scheduling music data pipeline from [
 
 ## Porobot Techstack 101
 
-The repository structure follows the conceptual architecture of Echodb, which consists of four loosely-coupled sub-systems.
+The repository structure follows the conceptual architecture of Porobot, which consists of five loosely-coupled sub-systems.
 
-To briefly explain these six sub-systems:
+To briefly explain these five sub-systems:
 
 * **[Orchestrator][orchestrator]** utilizes `Prefect` as a flexible and reliable workflow management system to orchestrate the data processing tasks in the data pipeline as well as generate custom logs for managing the whole cycle.
-* **[Extractor][extractor]** employs `Pydantic` to validate the integrity and quality of the extracted Spotify data through customizable data quality checks and adherence to expected schema and format.
-* **[Storage][storage]** relies on `PostgreSQL` as a robust and feature-rich database system for persistent storage of Spotify data, while leveraging `SQLAlchemy` as the ORM tool for simplified interaction with the database.
-* **[Analytics][analytics]** employs `Plotly` for creating interactive and visually appealing data visualizations, `Pandas` for data transformation and analysis, and `Streamlit` for deploying intuitive and user-friendly dashboards to explore and analyze Spotify data.
+* **[Extractor][extractor]** employs `Pydantic` to validate the integrity and quality of the extracted Riot data through customizable data quality checks and adherence to expected schema and format.
+* **[Storage][storage]** relies on `SQLite` as a robust and feature-rich database system for persistent storage of Riot and Discord data, while leveraging `SQLAlchemy` as the ORM tool for simplified interaction with the database.
+* **[Analytics][analytics]** employs `Plotly` for creating interactive and visually appealing data visualizations, `Pandas` for data transformation and analysis, and `Discord` for deploying intuitive and user-friendly dashboards to explore and analyze Riot data.
+* **[Application][app]** utilizes `Hikari` as the library for building a Discord bot, providing a powerful and efficient framework for interacting with the `Discord API` and creating engaging and interactive experiences for users.
 
 ## Instalation
 
@@ -49,14 +50,9 @@ Install dependencies:
 $ pip install -r requirements.txt
 ```
 
-[orchestrator]: https://www.prefect.io/
-[extractor]: https://developer.spotify.com/documentation/web-api
-[storage]: https://www.postgresql.org/
-[analytics]: https://resonance.streamlit.app/
-
 Start the bot
 
-```python
+```sh
 $ python -m tiamut 
 ```
 
@@ -71,3 +67,10 @@ Since Porobot is built on the basis of `Hikari` library, it is essential to look
 ## Contributors
 
 Nauqh - [Github](https://github.com/nauqh) - hodominhquan.self@gmail.com
+
+
+[orchestrator]: https://www.prefect.io/
+[extractor]: https://developer.spotify.com/documentation/web-api
+[storage]: https://www.postgresql.org/
+[analytics]: https://resonance.streamlit.app/
+[app]: https://www.hikari-py.dev/
