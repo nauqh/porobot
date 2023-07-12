@@ -61,11 +61,11 @@ async def voice_state_update(event: hikari.VoiceStateUpdateEvent) -> None:
     await msg.edit("📦")
 
     # Dataframe of all players of 5 games (5 x 10 records)
-    df = pd.json_normalize(matches, record_path=['participants'])
+    df = pd.json_normalize(matches)
     # Dataframe of player of 5 games
     player_df = pd.json_normalize(player)
 
-    stats = transform(player_df)
+    stats = transform(df, player_df)
 
     # TODO: Aggregate and display
     embed = (
@@ -106,11 +106,11 @@ async def voice_state_update(event: hikari.VoiceStateUpdateEvent) -> None:
             inline=True
         )
         .add_field(
-            '🏆 **Achievements**',
+            f'🏆 **Achievements** - `{stats["badge"]}`',
             f"""
-            **Time spent alive**: {round(stats['timealive']/60)}m {round(stats['timealive']%60)}s
-            **Time in grave**: {round(stats['timedead']/60)}m {round(stats['timedead']%60)}s
-            **Number of minion killed**: {stats['cs']}
+            **Time spent alive ❣️**: {round(stats['timealive']/60)}m {round(stats['timealive']%60)}s
+            **Time in graves 🪦**: {round(stats['timedead']/60)}m {round(stats['timedead']%60)}s
+            **CS per minute 🧠**: {stats['cspermin']}
             """,
             inline=True
         )

@@ -98,27 +98,34 @@ def progress_bar(percent: float) -> str:
     return progress
 
 
-def transform(df: pd.DataFrame):
+def transform(df: pd.DataFrame, player_df: pd.DataFrame):
     stats = {}
     # KDA
-    stats['kills'] = df['kills'].mean()
-    stats['deaths'] = df['deaths'].mean()
-    stats['assists'] = df['assists'].mean()
+    stats['kills'] = player_df['kills'].mean()
+    stats['deaths'] = player_df['deaths'].mean()
+    stats['assists'] = player_df['assists'].mean()
 
     # Champions
-    stats['champions'] = df['championName'].tolist()
+    stats['champions'] = player_df['championName'].tolist()
 
     # Damage, Penta, Games
-    stats['dmg'] = df['totalDamageDealtToChampions'].mean()  # Dmg
-    stats['penta'] = df['pentaKills'].sum()  # Penta
-    stats['wins'] = df['win'].value_counts().values[0]  # Wins
-    stats['loses'] = df['win'].value_counts().values[1]  # Loses
+    stats['dmg'] = player_df['totalDamageDealtToChampions'].mean()  # Dmg
+    stats['penta'] = player_df['pentaKills'].sum()  # Penta
+    stats['wins'] = player_df['win'].value_counts().values[0]  # Wins
+    stats['loses'] = player_df['win'].value_counts().values[1]  # Loses
 
     # Achievements (time in sec)
-    stats['timealive'] = df['longestTimeSpentLiving'].mean()
-    stats['timedead'] = df['totalTimeSpentDead'].mean()
-    stats['totalheal'] = df['totalHealsOnTeammates'].mean()
-    stats['cs'] = df['totalMinionsKilled'].mean()
+    stats['duration'] = df['gameDuration'].mean()//60
+    stats['timealive'] = player_df['longestTimeSpentLiving'].mean()
+    stats['timedead'] = player_df['totalTimeSpentDead'].mean()
+    stats['totalheal'] = player_df['totalHealsOnTeammates'].mean()
+    stats['cs'] = player_df['totalMinionsKilled'].mean()
+    stats['cspermin'] = stats['cs']/stats['duration']
+
+    if stats['timealive'] > stats['timedead']:
+        stats['badge'] = "🛡️ Guardian Angel"
+    else:
+        stats['badge'] = "💀 Death's Dance"
     return stats
 
 
