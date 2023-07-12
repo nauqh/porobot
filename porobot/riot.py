@@ -82,7 +82,7 @@ def gather_data(puuid, match_ids, mass_region, api_key):
         player.append(player_data)
 
     # Dataframe of all players of 5 games (5 x 10 records)
-    df = pd.json_normalize(matches, record_path=['participants'])
+    df = pd.json_normalize(matches)
     # Dataframe of player of 5 games
     player_df = pd.json_normalize(player)
     return df, player_df

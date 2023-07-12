@@ -104,7 +104,17 @@ async def voice_state_update(event: hikari.VoiceStateUpdateEvent) -> None:
             '🤝 **Participation**',
             "68 %",
             inline=True
-        ).set_footer(
+        )
+        .add_field(
+            '🏆 **Achievements**',
+            f"""
+            **Time spent alive**: {round(stats['timealive']/60)}m {round(stats['timealive']%60)}s
+            **Time in grave**: {round(stats['timedead']/60)}m {round(stats['timedead']%60)}s
+            **Number of minion killed**: {stats['cs']}
+            """,
+            inline=True
+        )
+        .set_footer(
             text=f"Requested by {author.username}",
             icon=author.avatar_url
         ))
