@@ -72,7 +72,7 @@ async def voice_state_update(event: hikari.VoiceStateUpdateEvent) -> None:
         hikari.Embed(
             title=f"{author.username} - Most recent games",
             description=f"**Champion pool**: {', '.join(stats['champions'])}",
-            colour=author.accent_colour,
+            colour="#9bf6ff",
             timestamp=datetime.now().astimezone(),
             url=f"https://www.op.gg/summoners/vn/{summoner_name.replace(' ', '%20')}"
         ).set_thumbnail(author.avatar_url)
