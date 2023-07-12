@@ -3,12 +3,6 @@ from tqdm import tqdm
 import time
 import pandas as pd
 
-members = {789656041423896587: 'Cozy Bearrrrr',
-           679677307300216841: 'UnbeatableVN',
-           764194057378856961: '3 Giờ Rửa Chim',
-           599076572745695233: 'Lushen2711',
-           815706256463364116: 'Sứ Giả Lọk Khe'}
-
 
 def get_puuid(summoner_name, region, api_key):
     api_url = (
@@ -40,7 +34,7 @@ def get_match_ids(puuid, mass_region, no_games, queue_id, api_key):
         api_key
     )
 
-    # print(f"REQUEST URL: {api_url}")
+    print(f"REQUEST URL: {api_url}")
 
     resp = requests.get(api_url)
     match_ids = resp.json()
@@ -78,52 +72,64 @@ def find_player_data(match_data, puuid):
     return player_data
 
 
-def get_team_kills(match_data, teamid):
-    res = 0
-    for p in match_data['info']['participants']:
-        if p['teamId'] == teamid:
-            res += p['kills']
-    return res
-
-
-def gather_all_data(puuid, match_ids, mass_region, api_key):
-    # We initialise an empty dictionary to store data for each game
-    data = {
-        'champion': [],
-        'kills': [],
-        'deaths': [],
-        'assists': [],
-        'win': [],
-        'dmg': [],
-        'pentakill': [],
-        'teamkills': []
-    }
-
+def gather_data(puuid, match_ids, mass_region, api_key):
+    matches = []
+    player = []
     for match_id in tqdm(match_ids):
         match_data = get_match_data(match_id, mass_region, api_key)
         player_data = find_player_data(match_data, puuid)
+        matches.append(match_data['info'])
+        player.append(player_data)
 
-        # assign the variables we're interested in
-        champion = player_data['championName']
-        k = player_data['kills']
-        d = player_data['deaths']
-        a = player_data['assists']
-        win = player_data['win']
-        dmg = player_data['totalDamageDealtToChampions']
-        penta = player_data['pentaKills']
-        teamid = player_data['teamId']
+    # Dataframe of all players of 5 games (5 x 10 records)
+    df = pd.json_normalize(matches, record_path=['participants'])
+    # Dataframe of player of 5 games
+    player_df = pd.json_normalize(player)
+    return df, player_df
 
-        # add them to our dataset
-        data['champion'].append(champion)
-        data['kills'].append(k)
-        data['deaths'].append(d)
-        data['assists'].append(a)
-        data['win'].append(win)
-        data['dmg'].append(dmg)
-        data['pentakill'].append(penta)
-        data['teamkills'].append(get_team_kills(match_data, teamid))
 
-    df = pd.DataFrame(data)
-    df['participation'] = (df['kills'] + df['assists']) / df['teamkills'] * 100
+def progress_bar(percent: float) -> str:
+    progress = ''
+    for i in range(12):
+        if i == (int)(percent*12):
+            progress += '🔘'
+        else:
+            progress += '▬'
+    return progress
 
-    return df
+
+def transform(df: pd.DataFrame):
+    stats = {}
+    # KDA
+    stats['kills'] = df['kills'].mean()
+    stats['deaths'] = df['deaths'].mean()
+    stats['assists'] = df['assists'].mean()
+
+    # Champions
+    stats['champions'] = df['championName'].tolist()
+
+    # Damage, Penta, Games
+    stats['dmg'] = df['totalDamageDealtToChampions'].mean()  # Dmg
+    stats['penta'] = df['pentaKills'].sum()  # Penta
+    stats['wins'] = df['win'].value_counts().values[0]  # Wins
+    stats['loses'] = df['win'].value_counts().values[1]  # Loses
+
+    # Achievements (time in sec)
+    stats['timealive'] = df['longestTimeSpentLiving'].mean()
+    stats['timedead'] = df['totalTimeSpentDead'].mean()
+    stats['totalheal'] = df['totalHealsOnTeammates'].mean()
+    stats['cs'] = df['totalMinionsKilled'].mean()
+    return stats
+
+
+if __name__ == "__main__":
+    api_key = "RGAPI-a384a673-d288-42ec-a860-55a1602dba94"
+    summoner_name = 'Sứ Giả Lọk Khe'
+    region = 'vn2'
+    mass_region = "sea"
+    no_games = 5
+    queue_id = 450
+
+    puuid = get_puuid(summoner_name, region, api_key)
+    match_ids = get_match_ids(puuid, mass_region, no_games, queue_id, api_key)
+    games, df = gather_data(puuid, match_ids, mass_region, api_key)
