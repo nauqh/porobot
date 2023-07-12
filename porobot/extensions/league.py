@@ -78,12 +78,12 @@ async def voice_state_update(event: hikari.VoiceStateUpdateEvent) -> None:
         ).set_thumbnail(author.avatar_url)
         .add_field(
             '🎯 **Games**',
-            f"{len(stats)}G {stats['wins']}W {stats['loses']}L",
+            f"{stats['wins'] + stats['loses']}G {stats['wins']}W {stats['loses']}L",
             inline=True
         )
         .add_field(
             '🏆 **Winrates**',
-            f"{round((stats['wins']/len(stats)), 2)*100} %",
+            f"{round((stats['wins']/5), 2)*100} %",
             inline=True
         )
         .add_field(
