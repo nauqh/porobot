@@ -63,9 +63,9 @@ $ python -m tiamut
 
 Since Porobot is built on the basis of `Hikari` library, it is essential to look for the library documentation for further implementation. 
 
+- `RiotAPI`: https://developer.riotgames.com/
 - `Hikari`: https://www.hikari-py.dev/
 - `Lightbulb`: https://hikari-lightbulb.readthedocs.io/en/latest/
-- `RiotAPI`: https://developer.riotgames.com/
 
 ## Contributors
 
