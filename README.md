@@ -12,13 +12,12 @@
 
 ![Poro](poro.gif)
 
-Echodb is a tiny system for collecting and scheduling music data pipeline from [Spotify](https://engineering.atspotify.com/). In short, it allows you to:
+Porobot is a compact system for gathering and organizing game statistics data from [Riot API](https://developer.riotgames.com/). In essence, it enables you to:
 
-* Collect playlist such as `Discovery Weekly`, `Release Radar` (or even custom events of your choosing).
-* Store the data in a scalable database w/ [Postgresql](https://www.postgresql.org/) and [SQLAlchemy](https://www.sqlalchemy.org/).
-* Leverage a wide range of tools to model and analyze the behavioral data.
-* Generate reports and deploy online dashboard for easy management.
-
+* Retrieve player statistics such as match history, ranked information, or even custom data of your choice.
+* Store the data in a scalable database using technologies like [SQLite](https://www.sqlite.org/index.html) and [SQLAlchemy](https://www.sqlalchemy.org/).
+* Utilize various tools to model and analyze the behavioral data.
+* Generate reports and deploy an online dashboard for convenient management.
 
 ## Porobot Techstack 101
 
