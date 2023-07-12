@@ -23,11 +23,10 @@ In short, it allows you to:
 
 ## Porobot Techstack 101
 
-The repository structure follows the conceptual architecture of Porobot, which consists of five loosely-coupled sub-systems.
+The repository structure follows the conceptual architecture of Porobot, which consists of four loosely-coupled sub-systems.
 
-To briefly explain these five sub-systems:
+To briefly explain these four sub-systems:
 
-* **[Orchestrator][orchestrator]** utilizes `Prefect` as a flexible and reliable workflow management system to orchestrate the data processing tasks in the data pipeline as well as generate custom logs for managing the whole cycle.
 * **[Extractor][extractor]** employs `Pydantic` to validate the integrity and quality of the extracted Riot data through customizable data quality checks and adherence to expected schema and format.
 * **[Storage][storage]** relies on `SQLite` as a robust and feature-rich database system for persistent storage of Riot and Discord data, while leveraging `SQLAlchemy` as the ORM tool for simplified interaction with the database.
 * **[Analytics][analytics]** employs `Plotly` for creating interactive and visually appealing data visualizations, `Pandas` for data transformation and analysis, and `Discord` for deploying intuitive and user-friendly dashboards to explore and analyze Riot data.
