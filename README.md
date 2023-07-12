@@ -23,6 +23,8 @@ In short, it allows you to:
 
 ## Porobot Techstack 101
 
+![Sample](sample.png)
+
 The repository structure follows the conceptual architecture of Porobot, which consists of four loosely-coupled sub-systems.
 
 To briefly explain these four sub-systems:
