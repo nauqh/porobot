@@ -21,8 +21,6 @@ Echodb is a tiny system for collecting and scheduling music data pipeline from [
 
 ## Echodb Datastack 101
 
-![Pipeline](data/stack.png)
-
 The repository structure follows the conceptual architecture of Echodb, which consists of four loosely-coupled sub-systems.
 
 To briefly explain these six sub-systems:
@@ -31,6 +29,26 @@ To briefly explain these six sub-systems:
 * **[Extractor][extractor]** employs `Pydantic` to validate the integrity and quality of the extracted Spotify data through customizable data quality checks and adherence to expected schema and format.
 * **[Storage][storage]** relies on `PostgreSQL` as a robust and feature-rich database system for persistent storage of Spotify data, while leveraging `SQLAlchemy` as the ORM tool for simplified interaction with the database.
 * **[Analytics][analytics]** employs `Plotly` for creating interactive and visually appealing data visualizations, `Pandas` for data transformation and analysis, and `Streamlit` for deploying intuitive and user-friendly dashboards to explore and analyze Spotify data.
+
+## Instalation
+
+Local hosting of Ashema is also possible
+
+Create a `.env` file to store the application authentication token and guild ids
+
+```sh
+TOKEN = BOT_TOKEN
+GUILD = DISCORD_SERVER_ID
+STDOUT_CHANNEL_ID = OUTPUT_CHANEL_ID
+VOICE_CHANNEL_ID = VOICE_CHANNEL_ID
+RIOT = RIOT_TOKEN
+```
+
+Install dependencies:
+
+```sh
+$ pip install -r requirements.txt
+```
 
 [orchestrator]: https://www.prefect.io/
 [extractor]: https://developer.spotify.com/documentation/web-api
