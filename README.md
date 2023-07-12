@@ -17,9 +17,8 @@ Echodb is a tiny system for collecting and scheduling music data pipeline from [
 * Leverage a wide range of tools to model and analyze the behavioral data.
 * Generate reports and deploy online dashboard for easy management.
 
----
 
-## Echodb Datastack 101
+## Porobot Techstack 101
 
 The repository structure follows the conceptual architecture of Echodb, which consists of four loosely-coupled sub-systems.
 
@@ -32,7 +31,7 @@ To briefly explain these six sub-systems:
 
 ## Instalation
 
-Local hosting of Ashema is also possible
+Local hosting of Porobot is also possible
 
 Create a `.env` file to store the application authentication token and guild ids
 
