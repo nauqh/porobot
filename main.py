@@ -1,4 +1,4 @@
-from tiamut import bot
+from porobot import bot
 
 
 if __name__ == "__main__":
