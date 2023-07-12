@@ -53,3 +53,15 @@ $ pip install -r requirements.txt
 [extractor]: https://developer.spotify.com/documentation/web-api
 [storage]: https://www.postgresql.org/
 [analytics]: https://resonance.streamlit.app/
+
+## Documentation
+
+Since Porobot is built on the basis of `Hikari` library, it is essential to look for the library documentation for further implementation. 
+
+- `Hikari`: https://www.hikari-py.dev/
+- `Lightbulb`: https://hikari-lightbulb.readthedocs.io/en/latest/
+- `RiotAPI`: https://developer.riotgames.com/
+
+## Contributors
+
+Nauqh - [Github](https://github.com/nauqh) - hodominhquan.self@gmail.com
