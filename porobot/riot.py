@@ -118,12 +118,16 @@ def transform(df: pd.DataFrame, player_df: pd.DataFrame):
     stats['duration'] = df['gameDuration'].mean()//60
     stats['timealive'] = player_df['longestTimeSpentLiving'].mean()
     stats['timedead'] = player_df['totalTimeSpentDead'].mean()
-    stats['totalheal'] = player_df['totalHealsOnTeammates'].mean()
-    stats['cs'] = player_df['totalMinionsKilled'].mean()
+    stats['totalheal'] = player_df['totalHealsOnTeammates'].max()
+    stats['cs'] = player_df['totalMinionsKilled'].max()
     stats['cspermin'] = round(stats['cs']/stats['duration'], 2)
 
     if stats['timealive'] > stats['timedead']:
+        stats['badge'] = "🏹 Immortal Shieldbow"
+    elif stats['totalheal'] > 1000:
         stats['badge'] = "🛡️ Guardian Angel"
+    elif stats['cspermin'] > 100:
+        stats['badge'] = "🪵 The Collector"
     else:
         stats['badge'] = "💀 Death's Dance"
     return stats
