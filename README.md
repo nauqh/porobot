@@ -10,6 +10,8 @@
 
 ## About the project
 
+![Poro](poro.gif)
+
 Echodb is a tiny system for collecting and scheduling music data pipeline from [Spotify](https://engineering.atspotify.com/). In short, it allows you to:
 
 * Collect playlist such as `Discovery Weekly`, `Release Radar` (or even custom events of your choosing).
