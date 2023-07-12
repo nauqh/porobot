@@ -1,15 +1,16 @@
 from datetime import datetime
 from ..config import settings
 from ..utils import *
+from ..riot import *
 
 import hikari
 import lightbulb
 
 """
-Handle member information
+League of Legends statistics
 """
 
-plugin = lightbulb.Plugin("League of Legends", "🎮 Champions info")
+plugin = lightbulb.Plugin("Riot", "📝 Player info")
 
 GUILD_ID = settings.GUILD
 CHANNEL = settings.STDOUT_CHANNEL_ID
@@ -22,90 +23,97 @@ members = {"Cozy Bearrrrr": 'Cozy Bearrrrr',
            "Obi-Wan": 'Sứ Giả Lọk Khe'}
 
 
-def progress_bar(percent: float) -> str:
-    progress = ''
-    for i in range(12):
-        if i == (int)(percent*12):
-            progress += '🔘'
-        else:
-            progress += '▬'
-    return progress
+@plugin.listener(hikari.VoiceStateUpdateEvent)
+async def voice_state_update(event: hikari.VoiceStateUpdateEvent) -> None:
+    author = event.state.member
+    api_key = settings.RIOT
+    region = 'vn2'
+    mass_region = "sea"
+    no_games = 5
+    queue_id = 450
 
+    if event.state.channel_id != None:
+        return
+    try:
+        summoner_name = members[author.display_name]
+    except Exception:
+        return
 
-@plugin.command
-@lightbulb.option(
-    "champion", "The champion to get information about.", required=True
-)
-@lightbulb.command(
-    "get", "Get info about the champion.", auto_defer=True
-)
-@lightbulb.implements(lightbulb.SlashCommand)
-async def get(ctx: lightbulb.Context):
-    champion = ctx.options.champion
+    # TODO: Get puuid and list of match ids
+    puuid = get_puuid(summoner_name, region, api_key)
+    match_ids = get_match_ids(puuid, mass_region, no_games, queue_id, api_key)
+    msg = await plugin.bot.rest.create_message(settings.STDOUT_CHANNEL_ID, "...")
 
-    # TODO: VALIDATE
-    error = runes(champion)
-    if error == None:
-        await ctx.respond(f"No champion name `{champion}`, try again")
-    else:
-        # TODO: RUNES
-        primary = []
-        rows = runes(champion)['primary']
-        for row in rows:
-            primary.append(get_main_rune(row))
+    # TODO: Gather data
+    matches = []
+    player = []
 
-        secondary = []
-        rows = runes(champion)['secondary']
-        for row in rows:
-            if get_main_rune(row) == None:
-                secondary.append("_")
-            else:
-                secondary.append(get_main_rune(row))
+    count = 0
+    total = len(match_ids)
+    for match_id in match_ids:
+        match_data = get_match_data(match_id, mass_region, api_key)
+        player_data = find_player_data(match_data, puuid)
+        matches.append(match_data['info'])
+        player.append(player_data)
 
-        # TODO: ITEMS
-        items = build(champion, 3)
+        await msg.edit(progress_bar(count/total))
+        count += 1
+    await msg.edit("📦")
 
-        embed = (
-            hikari.Embed(
-                title=f"**{champion.capitalize()}** Build",
-                description=f"**Branch**: `{primary[1]}`",
-                colour=0x9bf6ff,
-                timestamp=datetime.now().astimezone(),
-                url=f"https://www.op.gg/modes/aram/{champion}/build?region=kr"
-            )
-            .set_thumbnail(f"http://ddragon.leagueoflegends.com/cdn/13.13.1/img/champion/{champion.capitalize()}.png")
-            .add_field(
-                primary[2],
-                secondary[1],
-                inline=True
-            )
-            .add_field(
-                primary[3],
-                secondary[2],
-                inline=True
-            )
-            .add_field(
-                primary[4],
-                secondary[3],
-                inline=True
-            )
-            .add_field(
-                "**Items**",
-                ', '.join(items[0]),
-                inline=False
-            )
-            .add_field(
-                "**Alternatives**",
-                ', '.join(items[1]),
-                inline=True
-            )
-            .set_footer(
-                text=f"Requested by {ctx.member.display_name}",
-                icon=ctx.member.avatar_url or ctx.member.default_avatar_url,
-            )
+    # Dataframe of all players of 5 games (5 x 10 records)
+    df = pd.json_normalize(matches, record_path=['participants'])
+    # Dataframe of player of 5 games
+    player_df = pd.json_normalize(player)
+
+    stats = transform(player_df)
+
+    # TODO: Aggregate and display
+    embed = (
+        hikari.Embed(
+            title=f"{author.username} - Most recent games",
+            description=f"**Champion pool**: {', '.join(stats['champions'])}",
+            colour=author.accent_colour,
+            timestamp=datetime.now().astimezone(),
+            url=f"https://www.op.gg/summoners/vn/{summoner_name.replace(' ', '%20')}"
+        ).set_thumbnail(author.avatar_url)
+        .add_field(
+            '🎯 **Games**',
+            f"{len(stats)}G {stats['wins']}W {stats['loses']}L",
+            inline=True
         )
+        .add_field(
+            '🏆 **Winrates**',
+            f"{round((stats['wins']/len(stats)), 2)*100} %",
+            inline=True
+        )
+        .add_field(
+            '**⚔️ KDA**',
+            f"{stats['kills']}/{stats['deaths']}/{stats['assists']}",
+            inline=True
+        )
+        .add_field(
+            '🥊 **Damage**',
+            stats['dmg'],
+            inline=True
+        ).add_field(
+            '**Pentakills**',
+            stats['penta'],
+            inline=True
+        )
+        .add_field(
+            '🤝 **Participation**',
+            "68 %",
+            inline=True
+        ).set_footer(
+            text=f"Requested by {author.username}",
+            icon=author.avatar_url
+        ))
 
-        await ctx.respond(embed)
+    await msg.edit(embed)
+    if not stats['penta'] > 0:
+        await plugin.bot.rest.create_message(settings.STDOUT_CHANNEL_ID, f"{author.mention} 🤡")
+    else:
+        await plugin.bot.rest.create_message(settings.STDOUT_CHANNEL_ID, f"{author.mention} Congratulations 🏆")
 
 
 def load(bot: lightbulb.BotApp) -> None:
