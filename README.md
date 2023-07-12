@@ -54,6 +54,12 @@ $ pip install -r requirements.txt
 [storage]: https://www.postgresql.org/
 [analytics]: https://resonance.streamlit.app/
 
+Start the bot
+
+```sh
+$ python -m tiamut 
+```
+
 ## Documentation
 
 Since Porobot is built on the basis of `Hikari` library, it is essential to look for the library documentation for further implementation. 
