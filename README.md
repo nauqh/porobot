@@ -12,7 +12,9 @@
 
 ![Poro](poro.gif)
 
-Porobot is a compact system for gathering and organizing game statistics data from [Riot API](https://developer.riotgames.com/). In essence, it enables you to:
+Porobot is a compact system for gathering and organizing game statistics data from [Riot API](https://developer.riotgames.com/).
+
+In short, it allows you to:
 
 * Retrieve player statistics such as match history, ranked information, or even custom data of your choice.
 * Store the data in a scalable database using technologies like [SQLite](https://www.sqlite.org/index.html) and [SQLAlchemy](https://www.sqlalchemy.org/).
