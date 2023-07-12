@@ -120,7 +120,7 @@ def transform(df: pd.DataFrame, player_df: pd.DataFrame):
     stats['timedead'] = player_df['totalTimeSpentDead'].mean()
     stats['totalheal'] = player_df['totalHealsOnTeammates'].mean()
     stats['cs'] = player_df['totalMinionsKilled'].mean()
-    stats['cspermin'] = stats['cs']/stats['duration']
+    stats['cspermin'] = round(stats['cs']/stats['duration'], 2)
 
     if stats['timealive'] > stats['timedead']:
         stats['badge'] = "🛡️ Guardian Angel"
