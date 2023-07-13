@@ -142,5 +142,9 @@ if __name__ == "__main__":
     queue_id = 450
 
     puuid = get_puuid(summoner_name, region, api_key)
+    print(puuid)
     match_ids = get_match_ids(puuid, mass_region, no_games, queue_id, api_key)
     games, df = gather_data(puuid, match_ids, mass_region, api_key)
+
+    print(transform(games, df))
+    print(df)
