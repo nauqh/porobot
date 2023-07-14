@@ -2,7 +2,7 @@ from datetime import datetime
 from ..config import settings
 from ..utils import *
 from ..riot import *
-
+from ..data.db import update_database
 import hikari
 import lightbulb
 
@@ -20,7 +20,8 @@ members = {"Cozy Bearrrrr": 'Cozy Bearrrrr',
            "ancomsuon": 'UnbeatableVN',
            "urbestbae": '3 Giờ Rửa Chim',
            "iu vk thungan": 'Lushen2711',
-           "Obi-Wan": 'Sứ Giả Lọk Khe'}
+           "Obi-Wan": 'Sứ Giả Lọk Khe'
+           "Wavepin": 'Wavepin'}
 
 
 @plugin.listener(hikari.VoiceStateUpdateEvent)
@@ -39,6 +40,7 @@ async def voice_state_update(event: hikari.VoiceStateUpdateEvent) -> None:
     except Exception:
         return
 
+    """
     # TODO: Get puuid and list of match ids
     puuid = get_puuid(summoner_name, region, api_key)
     match_ids = get_match_ids(puuid, mass_region, no_games, queue_id, api_key)
@@ -50,6 +52,8 @@ async def voice_state_update(event: hikari.VoiceStateUpdateEvent) -> None:
 
     count = 0
     total = len(match_ids)
+
+
     for match_id in match_ids:
         match_data = get_match_data(match_id, mass_region, api_key)
         player_data = find_player_data(match_data, puuid)
@@ -64,8 +68,11 @@ async def voice_state_update(event: hikari.VoiceStateUpdateEvent) -> None:
     df = pd.json_normalize(matches)
     # Dataframe of player of 5 games
     player_df = pd.json_normalize(player)
-
     stats = transform(df, player_df)
+    """
+
+    stats = update_database(api_key=api_key,
+    summoner_name, region, mass_region, no_games=no_games, queue_id=queue_id)
 
     # TODO: Aggregate and display
     embed = (
