@@ -2,7 +2,8 @@ from datetime import datetime
 from ..config import settings
 from ..utils import *
 from ..riot import *
-from ..data.db import update_database
+from ..data.db import *
+from pathlib import Path
 import hikari
 import lightbulb
 
@@ -15,7 +16,7 @@ plugin = lightbulb.Plugin("Riot", "📝 Player info")
 GUILD_ID = settings.GUILD
 CHANNEL = settings.STDOUT_CHANNEL_ID
 VOICE = settings.VOICE_CHANNEL_ID
-
+db = init_database()
 members = {"Cozy Bearrrrr": 'Cozy Bearrrrr',
            "ancomsuon": 'UnbeatableVN',
            "urbestbae": '3 Giờ Rửa Chim',
@@ -71,7 +72,7 @@ async def voice_state_update(event: hikari.VoiceStateUpdateEvent) -> None:
     stats = transform(df, player_df)
     """
 
-    stats = update_database(api_key=api_key,
+    stats = update_database(db, api_key=api_key,
     summoner_name, region, mass_region, no_games=no_games, queue_id=queue_id)
 
     # TODO: Aggregate and display
