@@ -118,6 +118,7 @@ class Database():
             load = json.loads(query[2])
         return pd.json_normalize(load)
 
+
 def init_database():
     db_path = Path(".")
     build_path = Path(".")
@@ -127,14 +128,12 @@ def init_database():
     return db
 
 
-def update_database(db, api_key="RGAPI-a384a673-d288-42ec-a860-55a1602dba94",
-summoner_name, region='vn', mass_region='sea', no_games=5, queue_id=450):
-
-
+def update_database(db, summoner_name, api_key="RGAPI-a384a673-d288-42ec-a860-55a1602dba94", region='vn', mass_region='sea', no_games=5, queue_id=450):
 
     # TODO: EXTRACT (For each summoner)
     puuid = get_puuid(summoner_name, region, api_key)
-    match_ids = (get_match_ids(puuid, mass_region, no_games, queue_id, api_key))
+    match_ids = (get_match_ids(puuid, mass_region,
+                 no_games, queue_id, api_key))
     games, player = gather_data(puuid, match_ids, mass_region, api_key)
 
     # TODO: LOAD
@@ -144,9 +143,6 @@ summoner_name, region='vn', mass_region='sea', no_games=5, queue_id=450):
 
     stats = transform(games, player)
     return stats
-
-
-
 
 
 if __name__ == "__main__":
