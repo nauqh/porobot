@@ -4,7 +4,7 @@ from pathlib import Path
 from datetime import datetime as dt
 
 import pandas as pd
-from ..riot import *
+from riot import *
 from log import get_log
 
 
@@ -120,8 +120,8 @@ class Database():
 
 
 def init_database():
-    db_path = Path(".")
-    build_path = Path(".")
+    db_path = Path("./porobot/data")
+    build_path = Path("./porobot/data")
 
     db = Database(db_path, build_path)
     db.connect()
@@ -149,11 +149,9 @@ def update_database(db, summoner_name,
 if __name__ == "__main__":
     db = init_database()
 
-    summoner_name = 'Sứ Giả Lọk Khe'
+    summoner = 'Sứ Giả Lọk Khe'
 
-    update_database()
+    update_database(db=db, summoner_name=summoner)  # NOTE: return error
 
     df = db.get_stats(puuid, match_ids[0])
     print(df['championName'])
-
-    # TODO: EXTRACT (For each summoner)
