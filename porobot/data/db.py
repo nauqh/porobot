@@ -128,8 +128,9 @@ def init_database():
     return db
 
 
-def update_database(db, summoner_name, api_key="RGAPI-a384a673-d288-42ec-a860-55a1602dba94", region='vn', mass_region='sea', no_games=5, queue_id=450):
-
+def update_database(db, summoner_name,
+                    api_key="RGAPI-a384a673-d288-42ec-a860-55a1602dba94",
+                    region='vn', mass_region='sea', no_games=5, queue_id=450):
     # TODO: EXTRACT (For each summoner)
     puuid = get_puuid(summoner_name, region, api_key)
     match_ids = (get_match_ids(puuid, mass_region,
@@ -146,27 +147,11 @@ def update_database(db, summoner_name, api_key="RGAPI-a384a673-d288-42ec-a860-55
 
 
 if __name__ == "__main__":
-    db_path = Path(".")
-    build_path = Path(".")
+    db = init_database()
 
-    db = Database(db_path, build_path)
-    db.connect()
-
-    api_key = "RGAPI-a384a673-d288-42ec-a860-55a1602dba94"
     summoner_name = 'Sứ Giả Lọk Khe'
-    region = 'vn2'
-    mass_region = "sea"
-    no_games = 5
-    queue_id = 450
 
-    # TODO: EXTRACT (For each summoner)
-    puuid = get_puuid(summoner_name, region, api_key)
-    match_ids = get_match_ids(puuid, mass_region, no_games, queue_id, api_key)
-    games, player = gather_data(puuid, match_ids, mass_region, api_key)
-    # TODO: LOAD
-    db.add_summoner(puuid, summoner_name, region)
-    db.add_matches(games)
-    db.add_stats(puuid, match_ids, player)
+    update_database()
 
     df = db.get_stats(puuid, match_ids[0])
     print(df['championName'])
