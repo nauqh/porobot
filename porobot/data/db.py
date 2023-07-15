@@ -130,11 +130,10 @@ def init_database():
 
 def update_database(db, summoner_name,
                     api_key="RGAPI-a384a673-d288-42ec-a860-55a1602dba94",
-                    region='vn', mass_region='sea', no_games=5, queue_id=450):
+                    region='vn2', mass_region='sea', no_games=5, queue_id=450):
     # TODO: EXTRACT (For each summoner)
     puuid = get_puuid(summoner_name, region, api_key)
-    match_ids = (get_match_ids(puuid, mass_region,
-                 no_games, queue_id, api_key))
+    match_ids = get_match_ids(puuid, mass_region, no_games, queue_id, api_key)
     games, player = gather_data(puuid, match_ids, mass_region, api_key)
 
     # TODO: LOAD
@@ -151,7 +150,7 @@ if __name__ == "__main__":
 
     summoner = 'Sứ Giả Lọk Khe'
 
-    update_database(db=db, summoner_name=summoner)  # NOTE: return error
+    update_database(db=db, summoner_name=summoner)
 
     df = db.get_stats(puuid, match_ids[0])
     print(df['championName'])
