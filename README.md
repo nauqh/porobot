@@ -6,7 +6,7 @@
 
 ![Version](https://img.shields.io/badge/Latest_Version-V1.0.0-808080?style=for-the-badge)
 
-**Update** (12 July 2023): Invite Porobot to your discord server at [Porobot](https://nauqh.github.io/error.html)
+**Update** (12 July 2023): Invite Porobot to your discord server at [Porobot](https://nauqh.github.io/Porodocs/)
 
 ## About the project
 
@@ -70,9 +70,9 @@ Since Porobot is built on the basis of `Hikari` library, it is essential to look
 
 ## Contributors
 
-Nauqh - [Github](https://github.com/nauqh) - hodominhquan.self@gmail.com
+Nauqh - [github.com/nauqh](https://github.com/nauqh) 
 
-Tuanardo - [Github](https://github.com/anhtuan18602) 
+Tuanardo - [github.com/anhtuan18602](https://github.com/anhtuan18602) 
 
 
 [orchestrator]: https://www.prefect.io/
