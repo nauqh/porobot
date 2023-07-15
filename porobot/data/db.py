@@ -148,6 +148,4 @@ def update_database(db, summoner_name,
 if __name__ == "__main__":
     db = init_database()
 
-    summoner = 'Sứ Giả Lọk Khe'
-
-    df = update_database(db=db, summoner_name=summoner)
+    df = update_database(db=db, summoner_name='Sứ Giả Lọk Khe')
