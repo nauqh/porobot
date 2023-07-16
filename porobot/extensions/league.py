@@ -126,5 +126,29 @@ async def voice_state_update(event: hikari.VoiceStateUpdateEvent) -> None:
         await plugin.bot.rest.create_message(settings.STDOUT_CHANNEL_ID, f"{author.mention} Congratulations 🏆")
 
 
+@plugin.command()
+@lightbulb.option('version', 'Patch notes version')
+@lightbulb.command('patch', 'Latest patch notes', auto_defer=True)
+@lightbulb.implements(lightbulb.SlashCommand)
+async def patch(ctx: lightbulb.Context):
+    version = ctx.options.version.replace('.', '-')
+
+    url = f"https://www.leagueoflegends.com/en-us/news/game-updates/patch-{version}-notes/"
+    embed = (
+        hikari.Embed(
+            title=f"📝 Patch {version.replace('-', '.')} notes",
+            description="**Author**: `Riot Riru`",
+            colour="#9bf6ff",
+            url=url
+        )
+        .add_field(
+            "View patch details",
+            url
+        )
+        .set_image("https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/bltf06237d0ebbe32e0/5efc23abee48da0f762bc2f2/LOL_PROMOART_4.jpg")
+    )
+    await ctx.respond(embed)
+
+
 def load(bot: lightbulb.BotApp) -> None:
     bot.add_plugin(plugin)
