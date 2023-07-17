@@ -42,7 +42,14 @@ def rotation_emb(names: list):
     return embed
 
 
-def profile_emb(profile):
+def display_champs(champs):
+    display = ""
+    for champ in champs:
+        display += f"`{champ['name']}` \t- {champ['kda'][:-3]} ⚔️ {champ['winrate']}\n"
+    return display
+
+
+def profile_emb(profile: dict, champs: dict, rank: dict):
     embed = (
         hikari.Embed(
             title=f"✨ {profile['name']}",
@@ -54,7 +61,22 @@ def profile_emb(profile):
         .add_field(
             "Level/Region",
             f"{profile['level']} / {profile['region'].upper()}",
+            inline=False
+        )
+        .add_field(
+            "Top Champions",
+            display_champs(champs),
             inline=True
         )
+        .add_field(
+            "Ranked Stats",
+            f"""
+            **{rank['tier'].capitalize()}**
+            **{rank['lp']}** / {rank['win_lose']}
+            {rank['ratio']}
+            """,
+            inline=True
+        )
+
     )
     return embed

@@ -74,14 +74,14 @@ def get_main_rune(img_tags):
 
 
 def get_profile(summoner: str, region: str):
-    summoner = summoner.replace(' ', '%20')
-    url = f"https://www.op.gg/summoners/{region}/{summoner}"
+    url = f"https://www.op.gg/summoners/{region}/{summoner.replace(' ', '%20')}"
 
     session = HTMLSession()
     soup = BeautifulSoup(session.get(url).html.raw_html, features='lxml')
 
     profile = {
         'name': summoner,
+        'region': region,
         'url': url,
         'avatar': soup.select_one("div.profile-icon img")['src'],
         'level': soup.select_one("div.profile-icon img").find_next_sibling().text
@@ -92,7 +92,7 @@ def get_profile(summoner: str, region: str):
             'name': champ.find("div", {"class": "name"}).text,
             'kda': champ.find("div", {"class": "css-954ezp e1g7spwk1"}).text,
             'winrate': champ.find("div", {"class": "css-1nuoroq e1g7spwk0"}).text
-        } for champ in soup.find_all("div", {"class": "champion-box"})[:4]]
+        } for champ in soup.find_all("div", {"class": "champion-box"})[:3]]
     except Exception:
         champs = {}
 

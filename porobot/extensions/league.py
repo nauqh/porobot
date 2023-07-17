@@ -170,9 +170,8 @@ async def play(ctx: lightbulb.Context) -> None:
     # summoner = members[author]
     profile, champs, rank = get_profile("Prince Lothric", region="oce")
 
-    await ctx.respond(profile)
-    await ctx.respond(champs)
-    await ctx.respond(rank)
+    embed = profile_emb(profile, champs, rank)
+    await ctx.respond(embed)
 
 
 def load(bot: lightbulb.BotApp) -> None:
