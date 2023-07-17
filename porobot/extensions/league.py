@@ -162,5 +162,16 @@ async def play(ctx: lightbulb.Context, api_key="RGAPI-a384a673-d288-42ec-a860-55
     await ctx.respond(embed)
 
 
+@plugin.command()
+@lightbulb.command('profile', 'Summoner profile with ranks, champions, last game, etc.', auto_defer=True)
+@lightbulb.implements(lightbulb.SlashCommand)
+async def play(ctx: lightbulb.Context) -> None:
+    author = ctx.author.username
+    # summoner = members[author]
+
+    embed = profile_emb(profile("Cozy Bearrrrr", region="vn"))
+    await ctx.respond(embed)
+
+
 def load(bot: lightbulb.BotApp) -> None:
     bot.add_plugin(plugin)

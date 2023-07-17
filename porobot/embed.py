@@ -40,3 +40,21 @@ def rotation_emb(names: list):
         .set_thumbnail("https://i.imgur.com/shAjLsZ.png")
     )
     return embed
+
+
+def profile_emb(profile):
+    embed = (
+        hikari.Embed(
+            title=f"✨ {profile['name']}",
+            description="You asked for it, you got it",
+            colour="#9bf6ff",
+            url=profile['url']
+        )
+        .set_thumbnail(profile['avatar'])
+        .add_field(
+            "Level/Region",
+            f"{profile['level']} / {profile['region'].upper()}",
+            inline=True
+        )
+    )
+    return embed

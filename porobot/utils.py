@@ -72,6 +72,21 @@ def get_main_rune(img_tags):
             return to_dict(img_tag)['alt']
 
 
+def profile(summoner: str, region: str):
+    url = f"https://www.op.gg/summoners/{region}/{summoner.replace(' ', '%20')}"
+    html = request.urlopen(url)
+    soup = BeautifulSoup(html, "html.parser")
+
+    info = soup.find_all("div", {"class": "profile-icon"})[0].find_all()
+    profile = {}
+    profile['name'] = summoner
+    profile['url'] = url
+    profile['region'] = region
+    profile['avatar'] = info[0].get("src")
+    profile['level'] = info[1].text
+    return profile
+
+
 if __name__ == "__main__":
     champion = "brands"
     rows = runes(champion)
