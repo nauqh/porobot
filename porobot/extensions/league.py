@@ -2,6 +2,8 @@ from datetime import datetime
 from ..config import settings
 from ..utils import *
 from ..riot import *
+from ..embed import *
+from requests import get
 
 import hikari
 import lightbulb
@@ -134,19 +136,29 @@ async def patch(ctx: lightbulb.Context):
     version = ctx.options.version.replace('.', '-')
 
     url = f"https://www.leagueoflegends.com/en-us/news/game-updates/patch-{version}-notes/"
-    embed = (
-        hikari.Embed(
-            title=f"📝 Patch {version.replace('-', '.')} notes",
-            description="**Author**: `Riot Riru`",
-            colour="#9bf6ff",
-            url=url
-        )
-        .add_field(
-            "View patch details",
-            url
-        )
-        .set_image("https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/bltf06237d0ebbe32e0/5efc23abee48da0f762bc2f2/LOL_PROMOART_4.jpg")
-    )
+    embed = patch_emb(version, url)
+    await ctx.respond(embed)
+
+
+@plugin.command()
+@lightbulb.command('rotation', 'Free week rotation.', auto_defer=True)
+@lightbulb.implements(lightbulb.SlashCommand)
+async def play(ctx: lightbulb.Context, api_key="RGAPI-a384a673-d288-42ec-a860-55a1602dba94") -> None:
+    rotation = get(
+        f"https://vn2.api.riotgames.com/lol/platform/v3/champion-rotations?api_key={api_key}").json()
+
+    patch = get(
+        "https://ddragon.leagueoflegends.com/api/versions.json").json()[0]
+    champions = requests.get(
+        f"http://ddragon.leagueoflegends.com/cdn/{patch}/data/en_US/champion.json").json()['data']
+    champ_ids = rotation['freeChampionIds']
+
+    names = []
+    for name in champions:
+        if int(champions[name]['key']) in champ_ids:
+            names.append(name)
+
+    embed = rotation_emb(names)
     await ctx.respond(embed)
 
 
