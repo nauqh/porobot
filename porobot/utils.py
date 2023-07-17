@@ -1,5 +1,6 @@
 from urllib import request
 from bs4 import BeautifulSoup
+from requests_html import HTMLSession
 
 
 def build(champion_name: str, mode: int):
@@ -73,15 +74,17 @@ def get_main_rune(img_tags):
 
 
 def profile(summoner: str, region: str):
-    url = f"https://www.op.gg/summoners/{region}/{summoner.replace(' ', '%20')}"
-    html = request.urlopen(url)
-    soup = BeautifulSoup(html, "html.parser")
+    summoner = summoner.replace(' ', '%20')
+    url = f"https://www.op.gg/summoners/{region}/{summoner}"
+
+    session = HTMLSession()
+    html = session.get(url)
+    soup = BeautifulSoup(html.html.raw_html, features='lxml')
 
     info = soup.find_all("div", {"class": "profile-icon"})[0].find_all()
     profile = {}
     profile['name'] = summoner
     profile['url'] = url
-    profile['region'] = region
     profile['avatar'] = info[0].get("src")
     profile['level'] = info[1].text
     return profile
