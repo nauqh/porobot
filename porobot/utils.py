@@ -73,21 +73,40 @@ def get_main_rune(img_tags):
             return to_dict(img_tag)['alt']
 
 
-def profile(summoner: str, region: str):
+def get_profile(summoner: str, region: str):
     summoner = summoner.replace(' ', '%20')
     url = f"https://www.op.gg/summoners/{region}/{summoner}"
 
     session = HTMLSession()
-    html = session.get(url)
-    soup = BeautifulSoup(html.html.raw_html, features='lxml')
+    soup = BeautifulSoup(session.get(url).html.raw_html, features='lxml')
 
-    info = soup.find_all("div", {"class": "profile-icon"})[0].find_all()
-    profile = {}
-    profile['name'] = summoner
-    profile['url'] = url
-    profile['avatar'] = info[0].get("src")
-    profile['level'] = info[1].text
-    return profile
+    profile = {
+        'name': summoner,
+        'url': url,
+        'avatar': soup.select_one("div.profile-icon img")['src'],
+        'level': soup.select_one("div.profile-icon img").find_next_sibling().text
+    }
+
+    try:
+        champs = [{
+            'name': champ.find("div", {"class": "name"}).text,
+            'kda': champ.find("div", {"class": "css-954ezp e1g7spwk1"}).text,
+            'winrate': champ.find("div", {"class": "css-1nuoroq e1g7spwk0"}).text
+        } for champ in soup.find_all("div", {"class": "champion-box"})[:4]]
+    except Exception:
+        champs = {}
+
+    try:
+        rank = {
+            'tier': soup.select_one('div.content:nth-child(2) .tier').text,
+            'lp': soup.select_one('div.content:nth-child(2) .lp').text,
+            'win_lose': soup.select_one('div.content:nth-child(2) .win-lose').text,
+            'ratio': soup.select_one('div.content:nth-child(2) .ratio').text
+        }
+    except Exception:
+        rank = {}
+
+    return profile, champs, rank
 
 
 if __name__ == "__main__":
