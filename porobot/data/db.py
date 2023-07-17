@@ -107,8 +107,31 @@ class Database():
                              puuid, match_ids[i],  json.dumps(player[i]))
                 self.commit()
 
+
     # TODO: EXTRACT
-    def get_stats(self, puuid: str, match_id: str) -> pd.DataFrame:
+    # The query params are modified to be optional
+    def get_stats(self, puuid=None, match_id=None) -> pd.DataFrame:
+        statement = "SELECT * FROM performs "
+        values = []
+        if puuid:
+            statement += "WHERE s_id = (?) "
+            values.append(puuid)
+        if match_id:
+            statement += "WHERE m_id = (?)"
+            values.append(match_id)
+        query = self.records(statement, *values)
+        if not query:
+            log.info("Stats does not exist")
+            return None
+        else:
+            load = []
+            for row in query:
+                load.append(json.loads(row[2]))
+        return pd.json_normalize(load)
+
+
+    def get_stat(self, puuid: str, match_id: str) -> pd.DataFrame:
+
         query = self.record(
             "SELECT * FROM performs WHERE s_id = (?) and m_id = (?)", puuid, match_id)
         if not query:
@@ -117,6 +140,9 @@ class Database():
         else:
             load = json.loads(query[2])
         return pd.json_normalize(load)
+
+
+
 
 
 def init_database():
