@@ -168,7 +168,7 @@ async def play(ctx: lightbulb.Context, api_key="RGAPI-a384a673-d288-42ec-a860-55
 async def play(ctx: lightbulb.Context) -> None:
     author = ctx.author.username
     # summoner = members[author]
-    profile, champs, rank = get_profile("Prince Lothric", region="oce")
+    profile, champs, rank = get_profile("Sứ Giả Lọk Khe", region="vn")
 
     embed = profile_emb(profile, champs, rank)
     await ctx.respond(embed)
