@@ -22,25 +22,19 @@ class Analysis():
         df = self.db.get_stats(puuid=puuid)
         return df
 
-    # Get damage dealt of a summoner by champions
-    def champion_damage(self, df) -> pd.DataFrame:
+    # Get list of champions sort by a criteria
+    def best_champion_by(self, df, criteria) -> pd.DataFrame:
         # Calculate average damage of each champions
         champ_damages = df[['championName',
-        'totalDamageDealtToChampions']].groupby('championName').mean()
-        return champ_damages.sort_values(by='totalDamageDealtToChampions',ascending=False)
+        criteria]].groupby('championName').mean()
+        return champ_damages.sort_values(by=criteria,ascending=False)
 
 
-    #Get kda
-    def get_kda(self, df):
-        sum = df['challenges.kda'].mean()
-        return sum
-
-    #Get dodge ratio
-    def get_dodge(self,df):
-        dodged = df["challenges.skillshotsDodged"].sum()
-        hit = df["challenges.skillshotsHit"].sum()
-        total = hit + dodged
-        return (dodged / total, total)
+    #Get stats ratio
+    def get_ratio(self,df, stat_a, stat_b):
+        nominator = df[stat_a].sum()
+        total = df[stat_b].sum() + nominator
+        return (nominator / total, total)
 
 
 if __name__ == "__main__":
@@ -55,16 +49,19 @@ if __name__ == "__main__":
     an = Analysis(db, "RGAPI-a384a673-d288-42ec-a860-55a1602dba94", "vn2", "sea")
     for summoner_name in members.values():
         df = an.get_stats(summoner_name)
-        damage_df = an.champion_damage(df)
+        damage_df = an.best_champion_by(df,'totalDamageDealtToChampions')
+        participation_df = an.best_champion_by(df,'challenges.killParticipation')
 
         print(f"Player: {summoner_name}\n")
 
-        print(f"Average:{round(damage_df.mean().item())}")
+        print(f"Average damage dealt:{round(damage_df.mean().item())}")
 
-        print(f"Kda:{an.get_kda(df):.2f}")
+        print(f"Kda:{df['challenges.kda'].mean():.2f}")
 
-        dodged_ratio, total_skillshot = an.get_dodge(df)
+        dodged_ratio, total_skillshot = an.get_ratio(df,
+        'challenges.skillshotsDodged','challenges.skillshotsHit')
+
         print(f"Dodge ratio: {dodged_ratio*100:.2f}% ({total_skillshot})\n")
 
-        print(f"Highest damage dealt:\n",damage_df.head(3))
+        print(f"Highest participation:\n",participation_df.head(3))
         print("\n")
