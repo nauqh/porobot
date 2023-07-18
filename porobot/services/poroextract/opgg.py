@@ -1,6 +1,7 @@
 from urllib import request
 from bs4 import BeautifulSoup
 from requests_html import HTMLSession
+from requests import get
 
 
 def build(champion_name: str, mode: int):
@@ -107,3 +108,21 @@ def get_profile(summoner: str, region: str):
         rank = {}
 
     return profile, champs, rank
+
+
+def get_rotation(api_key="RGAPI-a384a673-d288-42ec-a860-55a1602dba94"):
+    rotation = get(
+        f"https://vn2.api.riotgames.com/lol/platform/v3/champion-rotations?api_key={api_key}").json()
+
+    patch = get(
+        "https://ddragon.leagueoflegends.com/api/versions.json").json()[0]
+    champions = get(
+        f"http://ddragon.leagueoflegends.com/cdn/{patch}/data/en_US/champion.json").json()['data']
+    champ_ids = rotation['freeChampionIds']
+
+    names = []
+    for name in champions:
+        if int(champions[name]['key']) in champ_ids:
+            names.append(name)
+
+    return names

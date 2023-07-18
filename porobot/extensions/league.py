@@ -9,8 +9,8 @@ extensions. It also does analysis as well as data aggregation.
 """
 
 from datetime import datetime
-from ..config import settings
 from requests import get
+from ..config import settings
 from ..services.poroextract.embed import *
 from ..services.poroextract.riot import *
 from ..services.poroextract.opgg import *
@@ -149,20 +149,8 @@ async def patch(ctx: lightbulb.Context):
 @plugin.command()
 @lightbulb.command('rotation', 'Free week rotation.', auto_defer=True)
 @lightbulb.implements(lightbulb.SlashCommand)
-async def play(ctx: lightbulb.Context, api_key="RGAPI-a384a673-d288-42ec-a860-55a1602dba94") -> None:
-    rotation = get(
-        f"https://vn2.api.riotgames.com/lol/platform/v3/champion-rotations?api_key={api_key}").json()
-
-    patch = get(
-        "https://ddragon.leagueoflegends.com/api/versions.json").json()[0]
-    champions = requests.get(
-        f"http://ddragon.leagueoflegends.com/cdn/{patch}/data/en_US/champion.json").json()['data']
-    champ_ids = rotation['freeChampionIds']
-
-    names = []
-    for name in champions:
-        if int(champions[name]['key']) in champ_ids:
-            names.append(name)
+async def rotation(ctx: lightbulb.Context) -> None:
+    names = get_rotation()
 
     embed = rotation_emb(names)
     await ctx.respond(embed)
