@@ -10,7 +10,7 @@
 
 ## About the project
 
-![Poro](poros.jpg)
+![Poro](assets/poros.jpg)
 
 Porobot is a compact system for gathering and organizing game statistics data from [Riot API](https://developer.riotgames.com/).
 
@@ -23,7 +23,7 @@ In short, it allows you to:
 
 ## Porobot Techstack 101
 
-![Sample](sample.png)
+![Sample](assets/sample.png)
 
 The repository structure follows the conceptual architecture of Porobot, which consists of four loosely-coupled sub-systems.
 
@@ -70,9 +70,9 @@ Since Porobot is built on the basis of `Hikari` library, it is essential to look
 
 ## Contributors
 
-Nauqh - [github.com/nauqh](https://github.com/nauqh) 
+- [ ] Nauqh - [github.com/nauqh](https://github.com/nauqh) 
 
-Tuanardo - [github.com/anhtuan18602](https://github.com/anhtuan18602) 
+- [ ] Tuanardo - [github.com/anhtuan18602](https://github.com/anhtuan18602) 
 
 
 [orchestrator]: https://www.prefect.io/
