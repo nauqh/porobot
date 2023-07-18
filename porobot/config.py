@@ -21,5 +21,7 @@ class Settings(BaseSettings):
     CONNECTION: str
     PWD: str
 
+    API_KEY: str
+
 
 settings = Settings()
