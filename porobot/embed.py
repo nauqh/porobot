@@ -1,3 +1,9 @@
+"""Embed factory
+
+This module creates hikari embed for displaying on Discord.
+
+"""
+
 import hikari
 
 

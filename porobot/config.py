@@ -1,10 +1,14 @@
+"""Configuration
+
+This module contains settings from environment variables, 
+validate and raise error if not found.
+
+"""
+
 from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    """
-    Validate env variables, raise error if not found 
-    """
     TOKEN: str
     GUILD: int
     STDOUT_CHANNEL_ID: int

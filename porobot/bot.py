@@ -1,3 +1,11 @@
+"""Porobot 
+
+This module init bot app and run on hikari. The module 
+contains some listeners for general events such as `starting`,
+`started` and `stopping`
+
+"""
+
 import porobot
 import hikari
 import lightbulb
