@@ -18,5 +18,8 @@ class Settings(BaseSettings):
     VOICE_CHANNEL_ID: int
     RIOT: str
 
+    CONNECTION: str
+    PWD: str
+
 
 settings = Settings()
