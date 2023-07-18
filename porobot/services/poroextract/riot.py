@@ -34,8 +34,6 @@ def get_match_ids(puuid, mass_region, no_games, queue_id, api_key):
         api_key
     )
 
-    print(f"REQUEST URL: {api_url}")
-
     resp = requests.get(api_url)
     match_ids = resp.json()
     return match_ids

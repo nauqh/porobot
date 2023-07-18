@@ -15,6 +15,9 @@ from ..riot import *
 from ..embed import *
 from requests import get
 
+from ..services.poroextract.riot import *
+from ..services.poroextract.opgg import *
+
 import hikari
 import lightbulb
 
