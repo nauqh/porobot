@@ -70,9 +70,11 @@ Since Porobot is built on the basis of `Hikari` library, it is essential to look
 
 ## Contributors
 
-- [ ] Nauqh - [github.com/nauqh](https://github.com/nauqh) 
+- [x] Nauqh - [@nauqh](https://github.com/nauqh) 
 
-- [ ] Tuanardo - [github.com/anhtuan18602](https://github.com/anhtuan18602) 
+- [x] Peter - [@bachtran02](https://github.com/bachtran02)
+
+- [x] Tuanardo - [@anhtuan18602](https://github.com/anhtuan18602) 
 
 
 [orchestrator]: https://www.prefect.io/
