@@ -48,9 +48,10 @@ def rotation_emb(names: list) -> hikari.Embed:
 
 
 def display_champs(champs: list) -> str:
-    display = ""
+    display = "No champions available"
     for champ in champs:
         display += f"**{champ['name']}**: {champ['kda'][:-3]} - {champ['winrate']} WR\n"
+
     return display
 
 
