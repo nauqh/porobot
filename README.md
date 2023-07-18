@@ -10,7 +10,7 @@
 
 ## About the project
 
-![Poro](poro.gif)
+![Poro](poros.jpg)
 
 Porobot is a compact system for gathering and organizing game statistics data from [Riot API](https://developer.riotgames.com/).
 
