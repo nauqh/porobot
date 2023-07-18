@@ -1,3 +1,13 @@
+"""League of Legends extension
+
+This module contains all commands for League of Legends
+extensions. It also does analysis as well as data aggregation.
+
+..  _View documentation for commands:
+    https://nauqh.github.io/Porodocs/
+
+"""
+
 from datetime import datetime
 from ..config import settings
 from ..utils import *
@@ -7,10 +17,6 @@ from requests import get
 
 import hikari
 import lightbulb
-
-"""
-League of Legends statistics
-"""
 
 plugin = lightbulb.Plugin("Riot", "📝 Player info")
 

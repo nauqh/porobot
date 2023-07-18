@@ -7,7 +7,7 @@ This module creates hikari embed for displaying on Discord.
 import hikari
 
 
-def patch_emb(version, url):
+def patch_emb(version: str, url: str) -> hikari.Embed:
     embed = (
         hikari.Embed(
             title=f"📝 Patch {version.replace('-', '.')} notes",
@@ -25,7 +25,7 @@ def patch_emb(version, url):
     return embed
 
 
-def rotation_emb(names: list):
+def rotation_emb(names: list) -> hikari.Embed:
     embed = (
         hikari.Embed(
             title=f"📝 Free Rotation",
@@ -47,14 +47,14 @@ def rotation_emb(names: list):
     return embed
 
 
-def display_champs(champs):
+def display_champs(champs: list) -> str:
     display = ""
     for champ in champs:
         display += f"**{champ['name']}**: {champ['kda'][:-3]} - {champ['winrate']} WR\n"
     return display
 
 
-def profile_emb(profile: dict, champs: dict, rank: dict):
+def profile_emb(profile: dict, champs: dict, rank: dict) -> hikari.Embed:
     embed = (
         hikari.Embed(
             title=f"✨ {profile['name']}",
