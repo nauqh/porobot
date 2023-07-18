@@ -17,7 +17,7 @@ Porobot is a compact system for gathering and organizing game statistics data fr
 In short, it allows you to:
 
 * Retrieve player statistics such as match history, ranked information, or even custom data of your choice.
-* Store the data in a scalable database using technologies like [SQLite](https://www.sqlite.org/index.html) and [SQLAlchemy](https://www.sqlalchemy.org/).
+* Store the data in a scalable database using technologies like [PostgreSQL](https://www.postgresql.org/) and [SQLAlchemy](https://www.sqlalchemy.org/).
 * Utilize various tools to model and analyze the behavioral data.
 * Generate reports and deploy an online dashboard for convenient management.
 
