@@ -74,7 +74,7 @@ def get_main_rune(img_tags):
             return to_dict(img_tag)['alt']
 
 
-def get_profile(summoner: str, region: str):
+def get_profile(summoner: str, region: str) -> tuple[dict, dict, dict]:
     url = f"https://www.op.gg/summoners/{region}/{summoner.replace(' ', '%20')}"
 
     session = HTMLSession()
@@ -110,7 +110,7 @@ def get_profile(summoner: str, region: str):
     return profile, champs, rank
 
 
-def get_rotation(api_key="RGAPI-a384a673-d288-42ec-a860-55a1602dba94"):
+def get_rotation(api_key="RGAPI-a384a673-d288-42ec-a860-55a1602dba94") -> list:
     rotation = get(
         f"https://vn2.api.riotgames.com/lol/platform/v3/champion-rotations?api_key={api_key}").json()
 

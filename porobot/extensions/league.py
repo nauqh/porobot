@@ -9,7 +9,6 @@ extensions. It also does analysis as well as data aggregation.
 """
 
 from datetime import datetime
-from requests import get
 from ..config import settings
 from ..services.poroextract.embed import *
 from ..services.poroextract.riot import *
