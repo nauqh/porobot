@@ -23,6 +23,7 @@ GUILD_ID = settings.GUILD
 CHANNEL = settings.STDOUT_CHANNEL_ID
 VOICE = settings.VOICE_CHANNEL_ID
 
+# NOTE: For events
 members = {"Cozy Bearrrrr": 'Cozy Bearrrrr',
            "ancomsuon": 'UnbeatableVN',
            "urbestbae": '3 Giờ Rửa Chim',
@@ -32,6 +33,17 @@ members = {"Cozy Bearrrrr": 'Cozy Bearrrrr',
            'BabySharkdudududududu': 'BabySharkduduUwU',
            'longhohoho': 'ThrSmK',
            'Minh Vu': 'Junglediffisreal'}
+
+# NOTE: For commands
+usernames = {"Cozy Bearrrrr": 'Cozy Bearrrrr',
+             "tuanancom": 'UnbeatableVN',
+             "urbestbae": '3 Giờ Rửa Chim',
+             "tuandao1311": 'Lushen2711',
+             "nauqh": 'Prince Lothric',
+             'lordtahdus': 'Lord Tahdus',
+             'babysharkdudududududu': 'BabySharkduduUwU',
+             'longhohoho': 'ThrSmK',
+             'Minh Vu': 'Junglediffisreal'}
 
 
 @plugin.listener(hikari.VoiceStateUpdateEvent)
@@ -164,8 +176,8 @@ async def rotation(ctx: lightbulb.Context) -> None:
 @lightbulb.implements(lightbulb.SlashCommand)
 async def play(ctx: lightbulb.Context) -> None:
     author = ctx.author.username
-    # summoner = members[author]
-    profile, champs, rank = get_profile("Sứ Giả Lọk Khe", region="vn")
+    summoner = usernames[author]
+    profile, champs, rank = get_profile(summoner, region="oc1")
 
     embed = profile_emb(profile, champs, rank)
     await ctx.respond(embed)

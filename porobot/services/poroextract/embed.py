@@ -48,9 +48,9 @@ def rotation_emb(names: list) -> hikari.Embed:
 
 
 def display_champs(champs: list) -> str:
-    display = "No champions available"
+    display = ""
     for champ in champs:
-        display += f"**{champ['name']}**: {champ['kda'][:-3]} - {champ['winrate']} WR\n"
+        display += f"**{champ['name']}**: {champ['kda']} - {champ['winrate']} WR\n"
 
     return display
 
@@ -71,10 +71,9 @@ def profile_emb(profile: dict, champs: dict, rank: dict) -> hikari.Embed:
         )
         .add_field(
             "🗂️ Rank",
-            f"""
-            **{rank['tier'].capitalize()}**
-            {rank['lp']} / {rank['win_lose']}
-            {rank['ratio']}
+            f"""**{rank['tier']}**
+            {rank['lp']} / {rank['win_lose'][:-3]}  
+            Winrate {rank['win_lose'][-3:]}
             """,
             inline=True
         )

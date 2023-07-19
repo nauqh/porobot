@@ -75,8 +75,8 @@ def get_main_rune(img_tags):
             return to_dict(img_tag)['alt']
 
 
-def get_profile(summoner: str, region: str) -> tuple[dict, dict, dict]:
-    url = f"https://www.op.gg/summoners/{region}/{summoner.replace(' ', '%20')}"
+def get_profile(summoner: str, region: str):
+    url = f"https://blitz.gg/lol/profile/{region}/{summoner.replace(' ', '%20')}"
 
     session = HTMLSession()
     soup = BeautifulSoup(session.get(url).html.raw_html, features='lxml')
@@ -85,30 +85,27 @@ def get_profile(summoner: str, region: str) -> tuple[dict, dict, dict]:
         'name': summoner,
         'region': region,
         'url': url,
-        'avatar': soup.select_one("div.profile-icon img")['src'],
-        'level': soup.select_one("div.profile-icon img").find_next_sibling().text
+        'avatar': soup.select_one("div.header-image--inner img")['src'],
+        'level': soup.select_one("span.type-caption--bold").text
     }
 
-    try:
-        champs = [{
-            'name': champ.find("div", {"class": "name"}).text,
-            'kda': champ.find("div", {"class": "css-954ezp e1g7spwk1"}).text,
-            'winrate': champ.find("div", {"class": "css-1nuoroq e1g7spwk0"}).text
-        } for champ in soup.find_all("div", {"class": "champion-box"})[:3]]
-    except Exception:
-        champs = {}
+    rank = {
+        'tier': soup.select_one('h4.type-body1-form--active').text,
+        'lp': soup.select('p.type-caption--bold')[0].text,
+        'win_lose': soup.select('p.type-caption--bold')[1].text
+    }
+    names = [tag.text for tag in soup.select('p.type-subtitle2')]
+    kda_wr_tags = soup.select('p.type-caption--bold')[2:8]
 
-    try:
-        rank = {
-            'tier': soup.select_one('div.content:nth-child(2) .tier').text,
-            'lp': soup.select_one('div.content:nth-child(2) .lp').text,
-            'win_lose': soup.select_one('div.content:nth-child(2) .win-lose').text,
-            'ratio': soup.select_one('div.content:nth-child(2) .ratio').text
+    champions = [
+        {
+            'name': names[i],
+            'kda': kda_wr_tags[i * 2].text[:-4],
+            'winrate': kda_wr_tags[i * 2 + 1].text
         }
-    except Exception:
-        rank = {}
+        for i in range(3)]
 
-    return profile, champs, rank
+    return profile, champions, rank
 
 
 def get_rotation() -> list:
