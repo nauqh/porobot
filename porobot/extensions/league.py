@@ -27,7 +27,11 @@ members = {"Cozy Bearrrrr": 'Cozy Bearrrrr',
            "ancomsuon": 'UnbeatableVN',
            "urbestbae": '3 Giờ Rửa Chim',
            "iu vk thungan": 'Lushen2711',
-           "Obi-Wan": 'Sứ Giả Lọk Khe'}
+           "Obi-Wan": 'Sứ Giả Lọk Khe',
+           'Lord Tahdus': 'Lord Tahdus',
+           'BabySharkdudududududu': 'BabySharkduduUwU',
+           'longhohoho': 'ThrSmK',
+           'Minh Vu': 'Junglediffisreal'}
 
 
 @plugin.listener(hikari.VoiceStateUpdateEvent)

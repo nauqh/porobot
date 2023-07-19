@@ -19,7 +19,7 @@ def get_puuid(summoner_name, region, api_key):
     return puuid
 
 
-def get_match_ids(puuid, mass_region, no_games, queue_id, api_key):
+def get_match_ids(puuid, mass_region, no_games, api_key, queue_id=None):
     api_url = (
         "https://" +
         mass_region +
@@ -28,11 +28,12 @@ def get_match_ids(puuid, mass_region, no_games, queue_id, api_key):
         "/ids?start=0" +
         "&count=" +
         str(no_games) +
-        "&queue=" +
-        str(queue_id) +
         "&api_key=" +
         api_key
     )
+
+    if queue_id:
+        api_url += "&queue=" + str(queue_id)
 
     resp = requests.get(api_url)
     match_ids = resp.json()
