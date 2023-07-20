@@ -21,7 +21,6 @@ plugin = lightbulb.Plugin("Riot", "📝 Player info")
 
 GUILD_ID = settings.GUILD
 CHANNEL = settings.STDOUT_CHANNEL_ID
-VOICE = settings.VOICE_CHANNEL_ID
 
 # NOTE: For events
 members = {"Cozy Bearrrrr": 'Cozy Bearrrrr',
