@@ -64,7 +64,7 @@ async def voice_state_update(event: hikari.VoiceStateUpdateEvent) -> None:
     # TODO: Get puuid and list of match ids
     puuid = get_puuid(summoner_name, region, api_key)
     match_ids = get_match_ids(
-        puuid, mass_region, no_games, api_key, queue_id=420)
+        puuid, mass_region, no_games, api_key)
     msg = await plugin.bot.rest.create_message(settings.STDOUT_CHANNEL_ID, "...")
 
     # TODO: Gather data
