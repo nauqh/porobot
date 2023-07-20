@@ -176,7 +176,7 @@ async def rotation(ctx: lightbulb.Context) -> None:
 async def play(ctx: lightbulb.Context) -> None:
     author = ctx.author.username
     summoner = usernames[author]
-    profile, champs, rank = get_profile(summoner, region="oc1")
+    profile, champs, rank = get_profile(summoner, region="vn2")
 
     embed = profile_emb(profile, champs, rank)
     await ctx.respond(embed)
