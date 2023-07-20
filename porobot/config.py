@@ -15,7 +15,6 @@ class Settings(BaseSettings):
     TOKEN: str
     GUILD: int
     STDOUT_CHANNEL_ID: int
-    VOICE_CHANNEL_ID: int
 
     CONNECTION: str
     PWD: str
