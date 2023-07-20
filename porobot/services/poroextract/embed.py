@@ -56,6 +56,13 @@ def display_champs(champs: list) -> str:
 
 
 def profile_emb(profile: dict, champs: dict, rank: dict) -> hikari.Embed:
+    if not rank:
+        text = "**Unranked**"
+    else:
+        text = f"""**{rank['tier']}**
+            {rank['lp']} / {rank['win_lose'][:-3]}  
+            Winrate {rank['win_lose'][-3:]}
+            """
     embed = (
         hikari.Embed(
             title=f"✨ {profile['name']}",
@@ -71,10 +78,7 @@ def profile_emb(profile: dict, champs: dict, rank: dict) -> hikari.Embed:
         )
         .add_field(
             "🗂️ Rank",
-            f"""**{rank['tier']}**
-            {rank['lp']} / {rank['win_lose'][:-3]}  
-            Winrate {rank['win_lose'][-3:]}
-            """,
+            text,
             inline=True
         )
         .add_field(

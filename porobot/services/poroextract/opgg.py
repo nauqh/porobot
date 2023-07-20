@@ -78,6 +78,9 @@ def get_main_rune(img_tags):
 def get_profile(summoner: str, region: str):
     url = f"https://blitz.gg/lol/profile/{region}/{summoner.replace(' ', '%20')}"
 
+    if summoner != 'Sứ Giả Lọk Khe':
+        url += "?queue=HOWLING_ABYSS_ARAM"
+
     session = HTMLSession()
     soup = BeautifulSoup(session.get(url).html.raw_html, features='lxml')
 
@@ -89,11 +92,15 @@ def get_profile(summoner: str, region: str):
         'level': soup.select_one("span.type-caption--bold").text
     }
 
-    rank = {
-        'tier': soup.select_one('h4.type-body1-form--active').text,
-        'lp': soup.select('p.type-caption--bold')[0].text,
-        'win_lose': soup.select('p.type-caption--bold')[1].text
-    }
+    try:
+        rank = {
+            'tier': soup.select_one('h4.type-body1-form--active').text,
+            'lp': soup.select('p.type-caption--bold')[0].text,
+            'win_lose': soup.select('p.type-caption--bold')[1].text
+        }
+    except Exception:
+        rank = None
+
     names = [tag.text for tag in soup.select('p.type-subtitle2')]
     kda_wr_tags = soup.select('p.type-caption--bold')[2:8]
 
