@@ -110,7 +110,7 @@ def get_profile(summoner: str, region: str):
 
 def get_rotation() -> list:
     rotation = get(
-        f"https://vn2.api.riotgames.com/lol/platform/v3/champion-rotations?api_key={settings.API_KEY}").json()
+        f"https://vn2.api.riotgames.com/lol/platform/v3/champion-rotations?api_key={settings.RIOT}").json()
 
     patch = get(
         "https://ddragon.leagueoflegends.com/api/versions.json").json()[0]

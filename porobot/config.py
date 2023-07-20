@@ -16,12 +16,11 @@ class Settings(BaseSettings):
     GUILD: int
     STDOUT_CHANNEL_ID: int
     VOICE_CHANNEL_ID: int
-    RIOT: str
 
     CONNECTION: str
     PWD: str
 
-    API_KEY: str
+    RIOT: str
 
 
 settings = Settings()
