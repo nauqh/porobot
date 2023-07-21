@@ -92,7 +92,7 @@ async def voice_state_update(event: hikari.VoiceStateUpdateEvent) -> None:
     # TODO: Aggregate and display
     embed = (
         hikari.Embed(
-            title=f"{author.username} - Most recent games",
+            title=f"{summoner_name}",
             description=f"**Champion pool**: {', '.join(stats['champions'])}",
             colour="#9bf6ff",
             timestamp=datetime.now().astimezone(),
