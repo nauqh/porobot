@@ -27,22 +27,14 @@ members = {"Cozy Bearrrrr": 'Cozy Bearrrrr',
            "ancomsuon": 'UnbeatableVN',
            "urbestbae": '3 Giờ Rửa Chim',
            "iu vk thungan": 'Lushen2711',
-           "Obi-Wan": 'Sứ Giả Lọk Khe',
-           'Lord Tahdus': 'Lord Tahdus',
-           'BabySharkdudududududu': 'BabySharkduduUwU',
-           'longhohoho': 'ThrSmK',
-           'Minh Vu': 'Junglediffisreal'}
+           "Obi-Wan": 'Sứ Giả Lọk Khe'}
 
 # NOTE: For commands
 usernames = {"Cozy Bearrrrr": 'Cozy Bearrrrr',
              "tuanancom": 'UnbeatableVN',
              "urbestbae": '3 Giờ Rửa Chim',
              "tuandao1311": 'Lushen2711',
-             "nauqh": 'Sứ Giả Lọk Khe',
-             'lordtahdus': 'Lord Tahdus',
-             'babysharkdudududududu': 'BabySharkduduUwU',
-             'longhohoho': 'ThrSmK',
-             'Minh Vu': 'Junglediffisreal'}
+             "nauqh": 'Sứ Giả Lọk Khe'}
 
 
 @plugin.listener(hikari.VoiceStateUpdateEvent)

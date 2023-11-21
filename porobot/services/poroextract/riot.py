@@ -130,3 +130,7 @@ def transform(df: pd.DataFrame, player_df: pd.DataFrame):
     else:
         stats['badge'] = "💀 Death's Dance"
     return stats
+
+
+if __name__ == '__main__':
+    ...
