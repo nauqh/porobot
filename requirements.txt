@@ -1,6 +1,6 @@
 bs4
 Flask
-hikari==2.0.0.dev120
+hikari==2.0.0.dev122
 hikari_lightbulb==2.3.3
 pandas==2.0.3
 psycopg2_binary==2.9.6
