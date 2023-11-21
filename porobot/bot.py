@@ -37,7 +37,7 @@ async def on_starting(_: hikari.StartingEvent) -> None:
 async def on_started(_: hikari.StartedEvent) -> None:
     await bot.rest.create_message(
         settings.STDOUT_CHANNEL_ID,
-        f"📈 Poro is now online! (Version {porobot.__version__})",
+        f"💡Poro is now online! (Version {porobot.__version__})",
     )
 
 
@@ -45,7 +45,7 @@ async def on_started(_: hikari.StartedEvent) -> None:
 async def on_stopping(_: hikari.StoppingEvent) -> None:
     await bot.rest.create_message(
         settings.STDOUT_CHANNEL_ID,
-        f"📉 Poro is shutting down. (Version {porobot.__version__})",
+        f"💀Poro is shutting down. (Version {porobot.__version__})",
     )
 
 
