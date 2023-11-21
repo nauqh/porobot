@@ -19,7 +19,7 @@ def patch_emb(version: str, url: str) -> hikari.Embed:
             "View patch details",
             url
         )
-        .set_image("https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/bltf06237d0ebbe32e0/5efc23abee48da0f762bc2f2/LOL_PROMOART_4.jpg")
+        .set_image("./assets/patch.jpg")
         .set_thumbnail("https://i.imgur.com/shAjLsZ.png")
     )
     return embed
