@@ -141,7 +141,7 @@ async def voice_state_update(event: hikari.VoiceStateUpdateEvent) -> None:
 
 
 @plugin.command()
-@lightbulb.option('version', 'Patch notes version')
+@lightbulb.option('version', 'Patch notes version e.g. 14-3')
 @lightbulb.command('patch', 'Latest patch notes', auto_defer=True)
 @lightbulb.implements(lightbulb.SlashCommand)
 async def patch(ctx: lightbulb.Context):

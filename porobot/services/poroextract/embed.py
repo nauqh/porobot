@@ -5,9 +5,24 @@ This module creates hikari embed for displaying on Discord.
 """
 
 import hikari
+import requests
+from bs4 import BeautifulSoup
+
+
+def get_patch_notes(url: str):
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, features="lxml")
+        banner = soup.find('img')['src']
+        summary = soup.find(
+            'span', attrs={'class': 'content-border'}).find('img')['src']
+    else:
+        raise requests.HTTPError("Patch is not available")
+    return banner, summary
 
 
 def patch_emb(version: str, url: str) -> hikari.Embed:
+    banner, summary = get_patch_notes(url)
     embed = (
         hikari.Embed(
             title=f"📝 Patch {version.replace('-', '.')} notes",
@@ -15,12 +30,8 @@ def patch_emb(version: str, url: str) -> hikari.Embed:
             colour="#9bf6ff",
             url=url
         )
-        .add_field(
-            "View patch details",
-            url
-        )
-        .set_image("./assets/patch.jpg")
-        .set_thumbnail("https://i.imgur.com/shAjLsZ.png")
+        .set_image(summary)
+        .set_thumbnail(banner)
     )
     return embed
 

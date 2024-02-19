@@ -16,9 +16,6 @@ class Settings(BaseSettings):
     GUILD: int
     STDOUT_CHANNEL_ID: int
 
-    CONNECTION: str
-    PWD: str
-
     RIOT: str
 
 
