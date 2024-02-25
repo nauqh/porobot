@@ -1,0 +1,7 @@
+beautifulsoup4
+hikari
+hikari_lightbulb
+pandas
+requests
+tqdm
+pydantic-settings
