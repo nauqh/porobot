@@ -1,5 +1,6 @@
 # Porobot - League of Legends Discord Bot 
 ![Version](https://img.shields.io/badge/Latest_Version-V1.0.0-808080?style=for-the-badge)
+![Replit](https://img.shields.io/badge/Replit-DD1200?style=for-the-badge&logo=Replit&logoColor=white&colorB=black)
 
 ![Python](https://img.shields.io/badge/Python%203.10-blue.svg?style=for-the-badge&logo=Python&logoColor=white)
 ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)
