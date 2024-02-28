@@ -65,37 +65,6 @@ async def profile(ctx: lightbulb.Context) -> None:
     rank = get_rank(KEY, info, region)[0]
     champions = get_champions(summoner, tag)
 
-    match_ids = get_match_ids(KEY, puuid, 10, queues[ctx.options['queue']])
-    msg = await plugin.bot.rest.create_message(CHANNEL, "...")
-
-    matches = []
-    player = []
-    count = 0
-    total = len(match_ids)
-    for match_id in match_ids:
-        match_data = get_match_data(KEY, match_id)
-        player_data = find_player_data(match_data, puuid)
-        matches.append(match_data['info'])
-        player.append(player_data)
-
-        await msg.edit(progress_bar(count/total))
-        count += 1
-    await msg.edit("Extracted 10 recent games")
-
-    df = pd.json_normalize(player)
-    tru = df.groupby('championName')[
-        'trueDamageDealtToChampions'].mean().to_dict()
-    phy = df.groupby('championName')[
-        'physicalDamageDealtToChampions'].mean().to_dict()
-    mag = df.groupby('championName')[
-        'magicDamageDealtToChampions'].mean().to_dict()
-
-    names = list(tru.keys())
-    physicals = list(phy.values())
-    trues = list(tru.values())
-    magics = list(mag.values())
-    graph_dmgproportion(names, trues, physicals, magics)
-
     embed = profile_embed(
         info, rank, region, url,
         champions[:3], summoner, tag
@@ -103,7 +72,6 @@ async def profile(ctx: lightbulb.Context) -> None:
         text=f"Requested by {ctx.member.display_name}",
         icon=ctx.member.avatar_url)
     await ctx.respond(embed)
-    await plugin.bot.rest.create_message(CHANNEL, "...", attachment="temp.png")
 
 
 @plugin.command()
