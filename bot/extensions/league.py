@@ -80,7 +80,7 @@ async def profile(ctx: lightbulb.Context) -> None:
 
         await msg.edit(progress_bar(count/total))
         count += 1
-    await msg.edit("Done")
+    await msg.edit("Extracted 10 recent games")
 
     df = pd.json_normalize(player)
     tru = df.groupby('championName')['trueDamageDealtToChampions'].mean().to_dict()
