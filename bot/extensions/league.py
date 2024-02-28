@@ -45,11 +45,11 @@ async def patch(ctx: lightbulb.Context):
 
 
 @plugin.command()
-@lightbulb.option('queue', 'Queue type',default="Ranked Solo", choices=['Ranked Flex',
-                                                  'Ranked Solo',
-                                                  'ARAM',
-                                                  'Normal Blind',
-                                                  'Normal Draft'], required=False)
+@lightbulb.option('queue', 'Queue type', default="Ranked Solo", choices=['Ranked Flex',
+                                                                         'Ranked Solo',
+                                                                         'ARAM',
+                                                                         'Normal Blind',
+                                                                         'Normal Draft'], required=False)
 @lightbulb.option('region', 'Region', default="VN2", choices=['VN2',
                                                               'OC1'], required=False)
 @lightbulb.option('tag', 'Tagline')
@@ -83,9 +83,12 @@ async def profile(ctx: lightbulb.Context) -> None:
     await msg.edit("Extracted 10 recent games")
 
     df = pd.json_normalize(player)
-    tru = df.groupby('championName')['trueDamageDealtToChampions'].mean().to_dict()
-    phy = df.groupby('championName')['physicalDamageDealtToChampions'].mean().to_dict()
-    mag = df.groupby('championName')['magicDamageDealtToChampions'].mean().to_dict()
+    tru = df.groupby('championName')[
+        'trueDamageDealtToChampions'].mean().to_dict()
+    phy = df.groupby('championName')[
+        'physicalDamageDealtToChampions'].mean().to_dict()
+    mag = df.groupby('championName')[
+        'magicDamageDealtToChampions'].mean().to_dict()
 
     names = list(tru.keys())
     physicals = list(phy.values())
@@ -125,11 +128,11 @@ async def build(ctx: lightbulb.Context):
 
 
 @plugin.command()
-@lightbulb.option('queue', 'Queue type',default="Ranked Solo", choices=['Ranked Flex',
-                                                  'Ranked Solo',
-                                                  'ARAM',
-                                                  'Normal Blind',
-                                                  'Normal Draft'], required=False)
+@lightbulb.option('queue', 'Queue type', default="Ranked Solo", choices=['Ranked Flex',
+                                                                         'Ranked Solo',
+                                                                         'ARAM',
+                                                                         'Normal Blind',
+                                                                         'Normal Draft'], required=False)
 @lightbulb.option('tag', 'Tagline')
 @lightbulb.option('summoner', 'Summoner name')
 @lightbulb.command('graph', 'Summoner stats visualization', auto_defer=True)
@@ -159,9 +162,12 @@ async def graph(ctx: lightbulb.Context) -> None:
     matchdf = pd.json_normalize(matches)
     playerdf = pd.json_normalize(player)
 
-    tru = playerdf.groupby('championName')['trueDamageDealtToChampions'].mean().to_dict()
-    phy = playerdf.groupby('championName')['physicalDamageDealtToChampions'].mean().to_dict()
-    mag = playerdf.groupby('championName')['magicDamageDealtToChampions'].mean().to_dict()
+    tru = playerdf.groupby('championName')[
+        'trueDamageDealtToChampions'].mean().to_dict()
+    phy = playerdf.groupby('championName')[
+        'physicalDamageDealtToChampions'].mean().to_dict()
+    mag = playerdf.groupby('championName')[
+        'magicDamageDealtToChampions'].mean().to_dict()
 
     names = list(tru.keys())
     physicals = list(phy.values())
