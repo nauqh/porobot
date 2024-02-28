@@ -174,3 +174,4 @@ async def graph(ctx: lightbulb.Context) -> None:
     await ctx.respond("Done")
     await plugin.bot.rest.create_message(CHANNEL, attachment="dmg_proportion.png")
     await plugin.bot.rest.create_message(CHANNEL, attachment="laning.png")
+    await plugin.bot.rest.create_message(CHANNEL, "Visit [`Porostream`](https://porostream.streamlit.app/) for more insights and visualizations on your performance.")
