@@ -25,8 +25,8 @@ In short, it allows you to:
 
 ## Features
 <div style="display: flex;">
-  <img width="400" src="./img/profile.png" style="margin-right: 10px;">
-  <img width="400" src="./img/build.png">
+  <img width="400" src="img/profile.png" style="margin-right: 10px;">
+  <img width="400" src="img/build.png">
 </div>
 
 ## Techstack
