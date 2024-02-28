@@ -98,10 +98,9 @@ async def profile(ctx: lightbulb.Context) -> None:
         champions[:3], summoner, tag
     ).set_footer(
         text=f"Requested by {ctx.member.display_name}",
-        icon=ctx.member.avatar_url
-    ).set_image("temp.png")
-
+        icon=ctx.member.avatar_url)
     await ctx.respond(embed)
+    await plugin.bot.rest.create_message(CHANNEL, "...", attachment="temp.png")
 
 
 @plugin.command()
@@ -123,3 +122,55 @@ async def build(ctx: lightbulb.Context):
         await ctx.respond(embed)
     except Exception:
         await ctx.respond(f"Cannot find champion name {champion}")
+
+
+@plugin.command()
+@lightbulb.option('queue', 'Queue type',default="Ranked Solo", choices=['Ranked Flex',
+                                                  'Ranked Solo',
+                                                  'ARAM',
+                                                  'Normal Blind',
+                                                  'Normal Draft'], required=False)
+@lightbulb.option('tag', 'Tagline')
+@lightbulb.option('summoner', 'Summoner name')
+@lightbulb.command('graph', 'Summoner stats visualization', auto_defer=True)
+@lightbulb.implements(lightbulb.SlashCommand)
+async def graph(ctx: lightbulb.Context) -> None:
+    summoner, tag = ctx.options['summoner'], ctx.options['tag']
+
+    puuid = get_puuid(KEY, summoner, tag)
+
+    match_ids = get_match_ids(KEY, puuid, 10, queues[ctx.options['queue']])
+    msg = await plugin.bot.rest.create_message(CHANNEL, "...")
+
+    matches = []
+    player = []
+    count = 0
+    total = len(match_ids)
+    for match_id in match_ids:
+        match_data = get_match_data(KEY, match_id)
+        player_data = find_player_data(match_data, puuid)
+        matches.append(match_data['info'])
+        player.append(player_data)
+
+        await msg.edit(progress_bar(count/total))
+        count += 1
+    await msg.edit("Extracted 10 recent games")
+
+    matchdf = pd.json_normalize(matches)
+    playerdf = pd.json_normalize(player)
+
+    tru = playerdf.groupby('championName')['trueDamageDealtToChampions'].mean().to_dict()
+    phy = playerdf.groupby('championName')['physicalDamageDealtToChampions'].mean().to_dict()
+    mag = playerdf.groupby('championName')['magicDamageDealtToChampions'].mean().to_dict()
+
+    names = list(tru.keys())
+    physicals = list(phy.values())
+    trues = list(tru.values())
+    magics = list(mag.values())
+
+    graph_dmgproportion(names, trues, physicals, magics)
+    graph_personal(matchdf, playerdf)
+
+    await ctx.respond("Done")
+    await plugin.bot.rest.create_message(CHANNEL, attachment="dmg_proportion.png")
+    await plugin.bot.rest.create_message(CHANNEL, attachment="laning.png")

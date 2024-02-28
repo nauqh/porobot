@@ -8,6 +8,8 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 import plotly.graph_objects as go
+from datetime import datetime
+from plotly.subplots import make_subplots
 
 
 def get_patch_notes(url: str):
@@ -153,7 +155,7 @@ def graph_dmgproportion(names, trues, physicals, magics):
             hovertemplate='%{x:,.0f}'
         ))
 
-    fig.update_layout(title='Damage Proportion 10 Recent Games', barmode='stack', title_font_size=20,
+    fig.update_layout(title='Damage Proportion', barmode='stack', title_font_size=20,
                       title_font_color='#FAFAFA', height=450,
                       paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
                       legend=dict(orientation="h", yanchor="top", xanchor="center", x=0.5, y=1.1,
@@ -161,4 +163,76 @@ def graph_dmgproportion(names, trues, physicals, magics):
     
     fig.update_yaxes(showgrid=False, title=None, tickfont=dict(color='#FAFAFA'))
     fig.update_xaxes(title=None, tickfont=dict(color='#FAFAFA'))
-    fig.write_image("temp.png")
+    fig.write_image("dmg_proportion.png")
+
+def convert_timestamp_to_date(timestamp):
+    date_object = datetime.utcfromtimestamp(timestamp)
+    formatted_date = date_object.strftime('%b %d %H:%M')
+    return formatted_date
+
+def graph_personal(matchdf, playerdf):
+    # Reverse the order of rows
+    matchdf = matchdf.iloc[::-1].reset_index(drop=True)
+    playerdf = playerdf.iloc[::-1].reset_index(drop=True)
+
+    matchdf['CSperMin'] = (playerdf['totalMinionsKilled'] + playerdf['neutralMinionsKilled']) / \
+        (matchdf['gameDuration'] / 60)
+    matchdf['VisionperMin'] = playerdf['visionScore'] / \
+        (matchdf['gameDuration'] / 60)
+    matchdf['GoldperMin'] = playerdf['goldEarned'] / \
+        (matchdf['gameDuration'] / 60)
+
+    matchdf['gameCreation'] = matchdf['gameCreation'] / 1000
+    matchdf['gameCreation'] = matchdf['gameCreation'].apply(
+        convert_timestamp_to_date)
+
+    # Calculate the difference between CSperMin and GoldperMin
+    matchdf['CS_Gold_Difference'] = abs(
+        matchdf['CSperMin'] - matchdf['GoldperMin'])
+
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+   # Extract champion names
+    champion_names = playerdf['championName']
+
+    # Creating traces for VisionperMin
+    vision_trace = go.Scatter(
+        x=matchdf['gameCreation'],
+        y=round(matchdf['VisionperMin'], 2),
+        mode='lines+markers',
+        name='VisionperMin',
+        hovertemplate='%{y:.1f}'
+    )
+
+    # Creating traces for CSperMin
+    cs_trace = go.Scatter(
+        x=matchdf['gameCreation'],
+        y=round(matchdf['CSperMin'], 2),
+        mode='lines+markers',
+        name='CSperMin',
+        hovertemplate='%{y:.1f}'
+    )
+
+    # Creating traces for GoldperMin
+    gold_trace = go.Scatter(
+        x=matchdf['gameCreation'],
+        y=round(matchdf['GoldperMin'], 2),
+        mode='lines+markers',
+        name='GoldperMin')
+
+    fig.add_trace(vision_trace)
+    fig.add_trace(cs_trace)
+    fig.add_trace(gold_trace, secondary_y=True)
+
+    fig.update_layout(title="Laning statistics", title_font_size=20,
+                      height=400, font_color="#fafafa",
+                      margin=dict(t=40, b=30),
+                      paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                      legend=dict(orientation="h", yanchor="top",
+                                  xanchor="center", x=0.6, y=1.1))
+
+    fig.update_yaxes(secondary_y=False,
+                     range=[0, 10], showgrid=False, tickfont_color='#FAFAFA')
+    fig.update_xaxes(title=None, showticklabels=False, showgrid=False, tickfont_color='#FAFAFA')
+    fig.update_yaxes(secondary_y=True, showgrid=False, tickfont_color='#FAFAFA')
+    fig.write_image("laning.png")
