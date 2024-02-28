@@ -45,7 +45,7 @@ async def patch(ctx: lightbulb.Context):
 
 
 @plugin.command()
-@lightbulb.option('queue', 'Queue type', choices=['Ranked Flex',
+@lightbulb.option('queue', 'Queue type',default="Ranked Solo", choices=['Ranked Flex',
                                                   'Ranked Solo',
                                                   'ARAM',
                                                   'Normal Blind',
@@ -65,7 +65,7 @@ async def profile(ctx: lightbulb.Context) -> None:
     rank = get_rank(KEY, info, region)[0]
     champions = get_champions(summoner, tag)
 
-    match_ids = get_match_ids(KEY, puuid, 10, 420)
+    match_ids = get_match_ids(KEY, puuid, 10, queues[ctx.options['queue']])
     msg = await plugin.bot.rest.create_message(CHANNEL, "...")
 
     matches = []

@@ -153,7 +153,7 @@ def graph_dmgproportion(names, trues, physicals, magics):
             hovertemplate='%{x:,.0f}'
         ))
 
-    fig.update_layout(title='Damage Proportion - Ranked Solo', barmode='stack', title_font_size=20,
+    fig.update_layout(title='Damage Proportion 10 Recent Games', barmode='stack', title_font_size=20,
                       title_font_color='#FAFAFA', height=450,
                       paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
                       legend=dict(orientation="h", yanchor="top", xanchor="center", x=0.5, y=1.1,
