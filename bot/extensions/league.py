@@ -65,19 +65,47 @@ async def profile(ctx: lightbulb.Context) -> None:
     rank = get_rank(KEY, info, region)[0]
     champions = get_champions(summoner, tag)
 
+    match_ids = get_match_ids(KEY, puuid, 10, 420)
+    msg = await plugin.bot.rest.create_message(CHANNEL, "...")
+
+    matches = []
+    player = []
+    count = 0
+    total = len(match_ids)
+    for match_id in match_ids:
+        match_data = get_match_data(KEY, match_id)
+        player_data = find_player_data(match_data, puuid)
+        matches.append(match_data['info'])
+        player.append(player_data)
+
+        await msg.edit(progress_bar(count/total))
+        count += 1
+    await msg.edit("Done")
+
+    df = pd.json_normalize(player)
+    tru = df.groupby('championName')['trueDamageDealtToChampions'].mean().to_dict()
+    phy = df.groupby('championName')['physicalDamageDealtToChampions'].mean().to_dict()
+    mag = df.groupby('championName')['magicDamageDealtToChampions'].mean().to_dict()
+
+    names = list(tru.keys())
+    physicals = list(phy.values())
+    trues = list(tru.values())
+    magics = list(mag.values())
+    graph_dmgproportion(names, trues, physicals, magics)
+
     embed = profile_embed(
         info, rank, region, url,
         champions[:3], summoner, tag
     ).set_footer(
         text=f"Requested by {ctx.member.display_name}",
         icon=ctx.member.avatar_url
-    )
+    ).set_image("temp.png")
 
     await ctx.respond(embed)
 
 
 @plugin.command()
-@lightbulb.option('champion', 'Champion name')
+@lightbulb.option('champion', 'Champion name (separated by space if name contains two words)')
 @lightbulb.command('build', 'Champion build', auto_defer=True)
 @lightbulb.implements(lightbulb.SlashCommand)
 async def build(ctx: lightbulb.Context):

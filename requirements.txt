@@ -5,3 +5,5 @@ pandas
 requests
 tqdm
 pydantic-settings
+plotly
+kaleido

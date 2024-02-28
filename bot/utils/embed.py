@@ -7,6 +7,7 @@ import hikari
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+import plotly.graph_objects as go
 
 
 def get_patch_notes(url: str):
@@ -57,7 +58,7 @@ def profile_embed(summoner, rank, region, url, champs, name, tag) -> hikari.Embe
         text = (f"**{rank['tier'].capitalize()} {rank['rank']}**\n"
                 f"{rank['wins']}W {rank['losses']}L {rank['leaguePoints']}LP\n\n"
                 f"🕹️ **Live game**\n"
-                f"Not curently playing")
+                f"NA")
     embed = (
         hikari.Embed(
             title=f"✨ {name} #{tag}",
@@ -133,3 +134,31 @@ def build_embed(champion, header,  url,  runes, items):
         .set_thumbnail(f"https://ddragon.leagueoflegends.com/cdn/14.4.1/img/champion/{champion.title().replace(' ', '')}.png"))
 
     return embed
+
+
+def graph_dmgproportion(names, trues, physicals, magics):
+    fig = go.Figure()
+
+    damage_types = ['True Damage', 'Physical Damage', 'Magic Damage']
+    colors = ['#ff9500', '#ffc300', '#ffdd00']
+
+    for damage_type, color in zip(damage_types, colors):
+        fig.add_trace(go.Bar(
+            y=names,
+            x=trues if damage_type == 'True Damage' else (
+                physicals if damage_type == 'Physical Damage' else magics),
+            name=damage_type,
+            orientation='h',
+            marker=dict(color=color),
+            hovertemplate='%{x:,.0f}'
+        ))
+
+    fig.update_layout(title='Damage Proportion - Ranked Solo', barmode='stack', title_font_size=20,
+                      title_font_color='#FAFAFA', height=450,
+                      paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                      legend=dict(orientation="h", yanchor="top", xanchor="center", x=0.5, y=1.1,
+                                  font_color="#fafafa"))
+    
+    fig.update_yaxes(showgrid=False, title=None, tickfont=dict(color='#FAFAFA'))
+    fig.update_xaxes(title=None, tickfont=dict(color='#FAFAFA'))
+    fig.write_image("temp.png")
